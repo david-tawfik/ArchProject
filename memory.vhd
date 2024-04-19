@@ -11,21 +11,21 @@ ENTITY memory IS
 		dataout : OUT std_logic_vector(31 DOWNTO 0));
 END ENTITY memory;
 
-ARCHITECTURE mem_arch OF mem IS
+ARCHITECTURE mem_arch OF memory IS
 
 	TYPE mem_type IS ARRAY(0 TO 4095) OF std_logic_vector(15 DOWNTO 0);
 	SIGNAL mem : mem_type ;
 	
 	BEGIN
-		PROCESS(clk) IS
-			BEGIN
-				IF rising_edge(clk) THEN  
-					IF memWrite  = '1' THEN
-						mem(to_integer(unsigned(address))) <= datain(15 DOWNTO 0);
-                        mem(to_integer(unsigned(address))+1) <= datain(31 DOWNTO 16);
-					END IF;
-				END IF;
-		END PROCESS;
-		dataout <= mem(to_integer(unsigned(address))+1) & mem(to_integer(unsigned(address)));
+		-- PROCESS(clk) IS
+		-- 	BEGIN
+		-- 		IF rising_edge(clk) THEN  
+		-- 			IF memWrite  = '1' THEN
+		-- 				mem(to_integer(unsigned(address))) <= datain(15 DOWNTO 0);
+        --                 mem(to_integer(unsigned(address))+1) <= datain(31 DOWNTO 16);
+		-- 			END IF;
+		-- 		END IF;
+		-- END PROCESS;
+		dataout <= "00000000000000000000000000000000";--mem(to_integer(unsigned(address))+1) & mem(to_integer(unsigned(address)));
 END mem_arch;
 

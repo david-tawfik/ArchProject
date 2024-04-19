@@ -13,7 +13,8 @@ BEGIN
 		IF(rst = '1') THEN
 			q <= '0';
 		ELSIF clk'event and clk = '1' THEN
-			q <= d;
+			q <= d;		
 		END IF;
+
 	END PROCESS;
 END a_my_DFF;

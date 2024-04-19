@@ -21,9 +21,9 @@ V>3bkzIXCnlH]QDD70T5=91
 !s100 Wa2L_10X@425[<05zGo>K3
 Z6 OV;C;10.5b;63
 32
-Z7 !s110 1713296260
+Z7 !s110 1713471183
 !i10b 1
-Z8 !s108 1713296260.000000
+Z8 !s108 1713471183.000000
 Z9 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/adder.vhd|
 Z10 !s107 D:/College/Sem8/Architecture/ArchProject/adder.vhd|
 !i113 1
@@ -47,65 +47,225 @@ R10
 !i113 1
 R11
 R12
-Econtroller
-Z13 w1710324575
-Z14 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+Ealu
+Z13 w1713388061
 R1
 R2
 R3
-Z15 8D:/College/Sem8/Architecture/ArchProject/controller.vhd
-Z16 FD:/College/Sem8/Architecture/ArchProject/controller.vhd
+Z14 8D:/College/Sem8/Architecture/ArchProject/alu.vhd
+Z15 FD:/College/Sem8/Architecture/ArchProject/alu.vhd
 l0
-L9
-VozVI]`38ojf]acI=79nG31
-!s100 OFS<B=<1c9H533VB3@nM61
+L4
+VLI6<n7`nD2PMhjS0?><bC1
+!s100 BCk63OkMjbPX4fmd@:Ab43
+R6
+32
+Z16 !s110 1713471184
+!i10b 1
+Z17 !s108 1713471184.000000
+Z18 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/alu.vhd|
+Z19 !s107 D:/College/Sem8/Architecture/ArchProject/alu.vhd|
+!i113 1
+R11
+R12
+Aalu_arch
+R1
+R2
+DEx4 work 3 alu 0 22 LI6<n7`nD2PMhjS0?><bC1
+l28
+L13
+VUOiBj98oJCoTBZ3^fN_2m0
+!s100 iDi2j_5kU@PdG?m<STON93
+R6
+32
+R16
+!i10b 1
+R17
+R18
+R19
+!i113 1
+R11
+R12
+Ealu_tb
+Z20 w1713380524
+R1
+R2
+R3
+Z21 8D:/College/Sem8/Architecture/ArchProject/alu_tb.vhd
+Z22 FD:/College/Sem8/Architecture/ArchProject/alu_tb.vhd
+l0
+L4
+V1N4[czj;^2;IX]RhkW6eh2
+!s100 SNankSR:g51Gk:]aRH_`@0
+R6
+32
+Z23 !s110 1713380530
+!i10b 1
+Z24 !s108 1713380530.000000
+Z25 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/alu_tb.vhd|
+Z26 !s107 D:/College/Sem8/Architecture/ArchProject/alu_tb.vhd|
+!i113 1
+R11
+R12
+Abehavior
+R1
+R2
+DEx4 work 6 alu_tb 0 22 1N4[czj;^2;IX]RhkW6eh2
+l34
+L7
+VR4aY?SCW<W]jCaAiUS2og1
+!s100 R[2jmm0BY<0EUEk9mZ<f32
+R6
+32
+R23
+!i10b 1
+R24
+R25
+R26
+!i113 1
+R11
+R12
+Ecache
+Z27 w1713469355
+Z28 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+R1
+R2
+R3
+Z29 8D:/College/Sem8/Architecture/ArchProject/cache.vhd
+Z30 FD:/College/Sem8/Architecture/ArchProject/cache.vhd
+l0
+L5
+VYj769@hAb>QJIa[8md`X40
+!s100 Gl2mOlKcE5SCN@dZ6?9OP1
+R6
+32
+Z31 !s110 1713471185
+!i10b 1
+Z32 !s108 1713471185.000000
+Z33 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/cache.vhd|
+Z34 !s107 D:/College/Sem8/Architecture/ArchProject/cache.vhd|
+!i113 1
+R11
+R12
+Asynccachea
+R28
+R1
+R2
+DEx4 work 5 cache 0 22 Yj769@hAb>QJIa[8md`X40
+l17
+L12
+V4=^c8gAPRlIJ5GUcWZS9n0
+!s100 gi4[XcI7=T8<_O;_@C6E^3
+R6
+32
+R31
+!i10b 1
+R32
+R33
+R34
+!i113 1
+R11
+R12
+Econtroller
+Z35 w1713393804
+R28
+R1
+R2
+R3
+Z36 8D:/College/Sem8/Architecture/ArchProject/controller.vhd
+Z37 FD:/College/Sem8/Architecture/ArchProject/controller.vhd
+l0
+L5
+VgoO[54zim:zec^0ef<aQ10
+!s100 eFI]:aBl2LYlZlMRgnARC1
 R6
 32
 R7
 !i10b 1
 R8
-Z17 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/controller.vhd|
-Z18 !s107 D:/College/Sem8/Architecture/ArchProject/controller.vhd|
+Z38 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/controller.vhd|
+Z39 !s107 D:/College/Sem8/Architecture/ArchProject/controller.vhd|
 !i113 1
 R11
 R12
 Acontroller_arch
-R14
+R28
 R1
 R2
-DEx4 work 10 controller 0 22 ozVI]`38ojf]acI=79nG31
-l18
-L17
-VGDUWRIiE3:1SSPi=iMOcX3
-!s100 GU=6_?2FaHXiKO49LdnKk1
+DEx4 work 10 controller 0 22 goO[54zim:zec^0ef<aQ10
+l16
+L15
+VC54<Bg6T`Hz7zaFG]FFoh0
+!s100 3A6OJk[1[XnclF^3B:B`61
 R6
 32
 R7
 !i10b 1
 R8
-R17
-R18
+R38
+R39
+!i113 1
+R11
+R12
+Econtrollertoalu
+Z40 w1713389704
+R28
+R1
+R2
+R3
+Z41 8D:/College/Sem8/Architecture/ArchProject/controllertoalu.vhd
+Z42 FD:/College/Sem8/Architecture/ArchProject/controllertoalu.vhd
+l0
+L5
+VjbWiGH3H:`g_I0^kCOnLI1
+!s100 690^?JB:8`>PJOXAG6ToL1
+R6
+32
+R31
+!i10b 1
+R32
+Z43 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/controllertoalu.vhd|
+Z44 !s107 D:/College/Sem8/Architecture/ArchProject/controllertoalu.vhd|
+!i113 1
+R11
+R12
+Abehavior
+R28
+R1
+R2
+DEx4 work 15 controllertoalu 0 22 jbWiGH3H:`g_I0^kCOnLI1
+l41
+L15
+Vg>``J1KzbJa3C>cB[G?if2
+!s100 S=4F[aF_Aa8o<<XRFhBK@3
+R6
+32
+R31
+!i10b 1
+R32
+R43
+R44
 !i113 1
 R11
 R12
 Ecpu
-Z19 w1710323262
+Z45 w1713392586
 R1
 R2
 R3
-Z20 8D:/College/Sem8/Architecture/ArchProject/cpu.vhd
-Z21 FD:/College/Sem8/Architecture/ArchProject/cpu.vhd
+Z46 8D:/College/Sem8/Architecture/ArchProject/cpu.vhd
+Z47 FD:/College/Sem8/Architecture/ArchProject/cpu.vhd
 l0
 L4
 V45L;Lm4UcbW6O2Q3m[?1O0
 !s100 72WJfj^Vb5cFZm@VohnR[1
 R6
 32
-R7
+R16
 !i10b 1
 R8
-Z22 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/cpu.vhd|
-Z23 !s107 D:/College/Sem8/Architecture/ArchProject/cpu.vhd|
+Z48 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/cpu.vhd|
+Z49 !s107 D:/College/Sem8/Architecture/ArchProject/cpu.vhd|
 !i113 1
 R11
 R12
@@ -119,32 +279,309 @@ V3J3oFAT4ik3HUDgH<gg9h1
 !s100 CZ<<fjoAU1?hHL7kY1:HO3
 R6
 32
-R7
+R16
 !i10b 1
 R8
-R22
-R23
+R48
+R49
+!i113 1
+R11
+R12
+Edecode_execute
+Z50 w1713470834
+R1
+R2
+R3
+Z51 8D:/College/Sem8/Architecture/ArchProject/decode_execute.vhd
+Z52 FD:/College/Sem8/Architecture/ArchProject/decode_execute.vhd
+l0
+L6
+VSkQ0PkL>JC`z::?jd=bA31
+!s100 Td14`FmYPGgXbf6`9o`Zn1
+R6
+32
+Z53 !s110 1713471186
+!i10b 1
+Z54 !s108 1713471186.000000
+Z55 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/decode_execute.vhd|
+Z56 !s107 D:/College/Sem8/Architecture/ArchProject/decode_execute.vhd|
+!i113 1
+R11
+R12
+Adecode_execute_arch
+R1
+R2
+DEx4 work 14 decode_execute 0 22 SkQ0PkL>JC`z::?jd=bA31
+l31
+L24
+Voz>2fl_3dnl@2b^Z2<3@O1
+!s100 TOBFa<i77hlERYm6_ZMjQ2
+R6
+32
+R53
+!i10b 1
+R54
+R55
+R56
+!i113 1
+R11
+R12
+Eexecute_memory
+Z57 w1713470828
+R1
+R2
+R3
+Z58 8D:/College/Sem8/Architecture/ArchProject/execute_memory.vhd
+Z59 FD:/College/Sem8/Architecture/ArchProject/execute_memory.vhd
+l0
+L4
+V_C8RjdRKXCOPm@RoIlOOR1
+!s100 1kdMZk<UWoRJYO9]l7mk70
+R6
+32
+R53
+!i10b 1
+R54
+Z60 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/execute_memory.vhd|
+Z61 !s107 D:/College/Sem8/Architecture/ArchProject/execute_memory.vhd|
+!i113 1
+R11
+R12
+Aexecute_memory_arch
+R1
+R2
+DEx4 work 14 execute_memory 0 22 _C8RjdRKXCOPm@RoIlOOR1
+l28
+L21
+VM7Te:TF[XU[acEZU1>G:23
+!s100 _5G]CNMk:fXfgJ2:gIWn]2
+R6
+32
+R53
+!i10b 1
+R54
+R60
+R61
+!i113 1
+R11
+R12
+Efetch_decode
+Z62 w1713470812
+R1
+R2
+R3
+Z63 8D:/College/Sem8/Architecture/ArchProject/fetch_decode.vhd
+Z64 FD:/College/Sem8/Architecture/ArchProject/fetch_decode.vhd
+l0
+L5
+VA;]ALzVB:zEh]2laCHOBH0
+!s100 2C>OX<l`aj7_@GzR<2>Oj0
+R6
+32
+R53
+!i10b 1
+R54
+Z65 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/fetch_decode.vhd|
+Z66 !s107 D:/College/Sem8/Architecture/ArchProject/fetch_decode.vhd|
+!i113 1
+R11
+R12
+Afetch_decode_arch
+R1
+R2
+DEx4 work 12 fetch_decode 0 22 A;]ALzVB:zEh]2laCHOBH0
+l17
+L13
+VOIk4fKQ[4^`_aH[@j9EAU2
+!s100 2M0TM9E3XF@EL9KG?An?]0
+R6
+32
+R53
+!i10b 1
+R54
+R65
+R66
+!i113 1
+R11
+R12
+Eharvard_cpu
+Z67 w1713470362
+R1
+R2
+R3
+Z68 8D:/College/Sem8/Architecture/ArchProject/harvard_cpu.vhd
+Z69 FD:/College/Sem8/Architecture/ArchProject/harvard_cpu.vhd
+l0
+L4
+VC6aVkG<BdIU?A6_ZFYIgh0
+!s100 nKa2=G3QnfHjO?UoP1=BA0
+R6
+32
+R31
+!i10b 1
+R32
+Z70 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/harvard_cpu.vhd|
+Z71 !s107 D:/College/Sem8/Architecture/ArchProject/harvard_cpu.vhd|
+!i113 1
+R11
+R12
+Aharvard_cpu_arch
+R1
+R2
+DEx4 work 11 harvard_cpu 0 22 C6aVkG<BdIU?A6_ZFYIgh0
+l165
+L11
+V_8j>:_`?DG_j8ao8k46@72
+!s100 RoocF24>FBL55LBHXA;3M0
+R6
+32
+R31
+!i10b 1
+R32
+R70
+R71
+!i113 1
+R11
+R12
+Eintegration
+Z72 w1710324390
+R28
+R1
+R2
+R3
+Z73 8D:/College/Sem8/Architecture/ArchProject/integration.vhd
+Z74 FD:/College/Sem8/Architecture/ArchProject/integration.vhd
+l0
+L5
+VEEXe7Ka2I3eO`fLk237Y?2
+!s100 3G6kh3kZH`9`Mz9WbXVKG3
+R6
+32
+R16
+!i10b 1
+R17
+Z75 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/integration.vhd|
+Z76 !s107 D:/College/Sem8/Architecture/ArchProject/integration.vhd|
+!i113 1
+R11
+R12
+Aintegration_arch
+R28
+R1
+R2
+DEx4 work 11 integration 0 22 EEXe7Ka2I3eO`fLk237Y?2
+l41
+L12
+V:oL78LDbAD:B0k=KAVQJd3
+!s100 MMd7g1`MjjeO7R;7VBeV51
+R6
+32
+R16
+!i10b 1
+R17
+R75
+R76
+!i113 1
+R11
+R12
+Ememory
+Z77 w1713470502
+R28
+R1
+R2
+R3
+Z78 8D:/College/Sem8/Architecture/ArchProject/memory.vhd
+Z79 FD:/College/Sem8/Architecture/ArchProject/memory.vhd
+l0
+L5
+VeobegKfI2XL:U<]Cd:[Y63
+!s100 9ibkF`Kgn`_`_g59Y:A172
+R6
+32
+R31
+!i10b 1
+R32
+Z80 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/memory.vhd|
+Z81 !s107 D:/College/Sem8/Architecture/ArchProject/memory.vhd|
+!i113 1
+R11
+R12
+Amem_arch
+R28
+R1
+R2
+DEx4 work 6 memory 0 22 eobegKfI2XL:U<]Cd:[Y63
+l19
+L14
+VXMVCn2B?L`<W6ezL6EGn?1
+!s100 k1o@2J]QZH5XgTcQZkg702
+R6
+32
+R31
+!i10b 1
+R32
+R80
+R81
+!i113 1
+R11
+R12
+Ememory_wb
+Z82 w1713470820
+R1
+R2
+R3
+Z83 8D:/College/Sem8/Architecture/ArchProject/memory_wb.vhd
+Z84 FD:/College/Sem8/Architecture/ArchProject/memory_wb.vhd
+l0
+L4
+Vi1CN`c=ZM998l3o:cBSGh3
+!s100 5c]8oQ`>TjN6`;m1KkTJ53
+R6
+32
+R53
+!i10b 1
+R54
+Z85 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/memory_wb.vhd|
+Z86 !s107 D:/College/Sem8/Architecture/ArchProject/memory_wb.vhd|
+!i113 1
+R11
+R12
+Amemory_wb_arch
+R1
+R2
+Z87 DEx4 work 9 memory_wb 0 22 i1CN`c=ZM998l3o:cBSGh3
+l27
+L22
+Z88 VP@WRLPOOa@jM`oP1_7>AX3
+Z89 !s100 GI<zC^<DbTXcM2IiT7^Gj0
+R6
+32
+R53
+!i10b 1
+R54
+R85
+R86
 !i113 1
 R11
 R12
 Emy_adder
-Z24 w1710185001
+Z90 w1710185001
 R1
 R2
 R3
-Z25 8D:/College/Sem8/Architecture/ArchProject/my_adder.vhd
-Z26 FD:/College/Sem8/Architecture/ArchProject/my_adder.vhd
+Z91 8D:/College/Sem8/Architecture/ArchProject/my_adder.vhd
+Z92 FD:/College/Sem8/Architecture/ArchProject/my_adder.vhd
 l0
 L4
 VFjlMaf=9aFlNWPMnMXH?k3
 !s100 A5lJZfMh@V_I]hj`4ZSML1
 R6
 32
-R7
+R16
 !i10b 1
-R8
-Z27 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/my_adder.vhd|
-Z28 !s107 D:/College/Sem8/Architecture/ArchProject/my_adder.vhd|
+R17
+Z93 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/my_adder.vhd|
+Z94 !s107 D:/College/Sem8/Architecture/ArchProject/my_adder.vhd|
 !i113 1
 R11
 R12
@@ -158,173 +595,448 @@ VEOP9;;8K^;kWb:D@aED0N1
 !s100 GNi^[i0bJH4Ed:4A3E4hd2
 R6
 32
-R7
+R16
 !i10b 1
-R8
-R27
-R28
+R17
+R93
+R94
+!i113 1
+R11
+R12
+Emy_dff
+Z95 w1713450096
+R1
+R2
+R3
+Z96 8D:/College/Sem8/Architecture/ArchProject/my_DFF.vhd
+Z97 FD:/College/Sem8/Architecture/ArchProject/my_DFF.vhd
+l0
+L4
+VCPdU>@IOnHzgmD1V@O?Gf0
+!s100 cYci7=FVR=nZ<X@KmAXg20
+R6
+32
+R31
+!i10b 1
+R32
+Z98 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/my_DFF.vhd|
+Z99 !s107 D:/College/Sem8/Architecture/ArchProject/my_DFF.vhd|
+!i113 1
+R11
+R12
+Aa_my_dff
+R1
+R2
+DEx4 work 6 my_dff 0 22 CPdU>@IOnHzgmD1V@O?Gf0
+l10
+L9
+V8k<EML77h<9;_OhkoGITH0
+!s100 0cV14G]b9gIWMSIj1^o8W3
+R6
+32
+R31
+!i10b 1
+R32
+R98
+R99
 !i113 1
 R11
 R12
 Emy_nadder
-Z29 w1710184959
+Z100 w1713376548
 R1
 R2
 R3
-Z30 8D:/College/Sem8/Architecture/ArchProject/my_nadder.vhd
-Z31 FD:/College/Sem8/Architecture/ArchProject/my_nadder.vhd
+Z101 8D:/College/Sem8/Architecture/ArchProject/my_nadder.vhd
+Z102 FD:/College/Sem8/Architecture/ArchProject/my_nadder.vhd
 l0
 L4
-VB4AbcIaXZn4?T4OOS7DU20
-!s100 5l2:aCU;QXgHV_66bgOBW0
+V[kY:F[il]0IR>hL?GWH@X0
+!s100 RKUFzj5DOf_Y]c5^TN;N^1
 R6
 32
-R7
+R16
 !i10b 1
-R8
-Z32 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/my_nadder.vhd|
-Z33 !s107 D:/College/Sem8/Architecture/ArchProject/my_nadder.vhd|
+R17
+Z103 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/my_nadder.vhd|
+Z104 !s107 D:/College/Sem8/Architecture/ArchProject/my_nadder.vhd|
 !i113 1
 R11
 R12
 Aa_my_adder
 R1
 R2
-DEx4 work 9 my_nadder 0 22 B4AbcIaXZn4?T4OOS7DU20
+DEx4 work 9 my_nadder 0 22 [kY:F[il]0IR>hL?GWH@X0
 l19
 L12
 VniRk;BmlJ88aTo?TfE=HE1
 !s100 IGJSVa3JiZZfD3f?51nCY3
 R6
 32
-R7
+R16
 !i10b 1
-R8
+R17
+R103
+R104
+!i113 1
+R11
+R12
+Emy_ndff
+Z105 w1709190437
+R1
+R2
+R3
+Z106 8D:/College/Sem8/Architecture/ArchProject/my_nDFF.vhd
+Z107 FD:/College/Sem8/Architecture/ArchProject/my_nDFF.vhd
+l0
+L4
+Vf8m?zi[]>eh7[Y4=@onlF0
+!s100 ]l@WACP90G4z1Joc2kjaD1
+R6
+32
+R31
+!i10b 1
 R32
-R33
+Z108 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/my_nDFF.vhd|
+Z109 !s107 D:/College/Sem8/Architecture/ArchProject/my_nDFF.vhd|
+!i113 1
+R11
+R12
+Ab_my_ndff
+R1
+R2
+DEx4 work 7 my_ndff 0 22 f8m?zi[]>eh7[Y4=@onlF0
+l16
+L11
+Vk4D1R4J^Qn?bjdVEFmhKE0
+!s100 c>c:f0li]O@WU[6;RDKIK3
+R6
+32
+R31
+!i10b 1
+R32
+R108
+R109
+!i113 1
+R11
+R12
+Eparta
+Z110 w1709993437
+R1
+R2
+R3
+Z111 8D:/College/Sem8/Architecture/ArchProject/parta.vhd
+Z112 FD:/College/Sem8/Architecture/ArchProject/parta.vhd
+l0
+L4
+ViNnk?0^_7]mDVCb8JfG^43
+!s100 SV>Gb5<781?5O_glDKFl]3
+R6
+32
+Z113 !s110 1713385550
+!i10b 1
+Z114 !s108 1713385550.000000
+Z115 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/parta.vhd|
+Z116 !s107 D:/College/Sem8/Architecture/ArchProject/parta.vhd|
+!i113 1
+R11
+R12
+Aparta_arch
+R1
+R2
+DEx4 work 5 parta 0 22 iNnk?0^_7]mDVCb8JfG^43
+l26
+L14
+VXK5^GGKcP58Q<I]g]Bj8Q0
+!s100 Z;`_5JA7e2Akd;_[R_g@?0
+R6
+32
+R113
+!i10b 1
+R114
+R115
+R116
+!i113 1
+R11
+R12
+Epartb
+Z117 w1709039133
+R1
+R2
+R3
+Z118 8D:/College/Sem8/Architecture/ArchProject/partb.vhd
+Z119 FD:/College/Sem8/Architecture/ArchProject/partb.vhd
+l0
+L4
+VSNLLCZi[1mN_`;oeQWEML0
+!s100 gMbJ@k@9lYgKUJS5oOTAk3
+R6
+32
+R113
+!i10b 1
+R114
+Z120 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/partb.vhd|
+Z121 !s107 D:/College/Sem8/Architecture/ArchProject/partb.vhd|
+!i113 1
+R11
+R12
+Apartb_arch
+R1
+R2
+DEx4 work 5 partb 0 22 SNLLCZi[1mN_`;oeQWEML0
+l14
+L13
+V]YdU<z3R]COHCd]iNfbCM3
+!s100 UVHNhZ^Kba>J`;RDPAUn20
+R6
+32
+R113
+!i10b 1
+R114
+R120
+R121
+!i113 1
+R11
+R12
+Epartc
+Z122 w1709063619
+R1
+R2
+R3
+Z123 8D:/College/Sem8/Architecture/ArchProject/partc.vhd
+Z124 FD:/College/Sem8/Architecture/ArchProject/partc.vhd
+l0
+L4
+Va9LWPWOANa]oYNPJ3ldEk3
+!s100 _j_cYH_`l<YmZ?a5l;j932
+R6
+32
+R113
+!i10b 1
+R114
+Z125 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/partc.vhd|
+Z126 !s107 D:/College/Sem8/Architecture/ArchProject/partc.vhd|
+!i113 1
+R11
+R12
+Apartc_arch
+R1
+R2
+DEx4 work 5 partc 0 22 a9LWPWOANa]oYNPJ3ldEk3
+l15
+L14
+VK^C0TN:k;8V[FFnmODA9f2
+!s100 jd?GBSIBa37Hlz3lf;Bb;3
+R6
+32
+R113
+!i10b 1
+R114
+R125
+R126
+!i113 1
+R11
+R12
+Epartd
+Z127 w1709039143
+R1
+R2
+R3
+Z128 8D:/College/Sem8/Architecture/ArchProject/partd.vhd
+Z129 FD:/College/Sem8/Architecture/ArchProject/partd.vhd
+l0
+L4
+VbF2Hh[Y?>d6?H6K<_HSgJ0
+!s100 8@iHg4IAWjjXGo=fG[lSK2
+R6
+32
+R113
+!i10b 1
+R114
+Z130 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/partd.vhd|
+Z131 !s107 D:/College/Sem8/Architecture/ArchProject/partd.vhd|
+!i113 1
+R11
+R12
+Apartd_arch
+R1
+R2
+DEx4 work 5 partd 0 22 bF2Hh[Y?>d6?H6K<_HSgJ0
+l15
+L14
+VbaJEeUWg9=79bX3;_AIPI1
+!s100 ]eXF]Q>gh`KRij^kYRn7;1
+R6
+32
+R113
+!i10b 1
+R114
+R130
+R131
 !i113 1
 R11
 R12
 Epc
-Z34 w1710175948
-R14
+Z132 w1713469909
+R28
 R1
 R2
 R3
-Z35 8D:/College/Sem8/Architecture/ArchProject/pc.vhd
-Z36 FD:/College/Sem8/Architecture/ArchProject/pc.vhd
+Z133 8D:/College/Sem8/Architecture/ArchProject/pc.vhd
+Z134 FD:/College/Sem8/Architecture/ArchProject/pc.vhd
 l0
 L5
-VGY>d3@DHc@Pz?U7mCDdI82
-!s100 a@XQM9i0E<i:Qh`UnmG>M1
+VH<M1XizPdF?zPb^c?9NYn3
+!s100 bMHODL[bjNof6kMECDDgP3
 R6
 32
-R7
+R16
 !i10b 1
-R8
-Z37 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/pc.vhd|
-Z38 !s107 D:/College/Sem8/Architecture/ArchProject/pc.vhd|
+R17
+Z135 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/pc.vhd|
+Z136 !s107 D:/College/Sem8/Architecture/ArchProject/pc.vhd|
 !i113 1
 R11
 R12
 Apc_arch
-R14
+R28
 R1
 R2
-DEx4 work 2 pc 0 22 GY>d3@DHc@Pz?U7mCDdI82
-l14
-L12
-VTl0AXbLDdc8bg_3c`iOiG3
-!s100 Ki25741`j>34olelbHDKL1
+DEx4 work 2 pc 0 22 H<M1XizPdF?zPb^c?9NYn3
+l15
+L13
+VDihX^`@X4^P0kz07bjKnG1
+!s100 1:OzBlk[E2[W[bAGOGQ;z0
 R6
 32
-R7
+R16
 !i10b 1
-R8
-R37
-R38
+R17
+R135
+R136
 !i113 1
 R11
 R12
 Eram
-Z39 w1710176517
-R14
+Z137 w1713400547
+R28
 R1
 R2
 R3
-Z40 8D:/College/Sem8/Architecture/ArchProject/ram.vhd
-Z41 FD:/College/Sem8/Architecture/ArchProject/ram.vhd
+Z138 8D:\College\Sem8\Architecture\ArchProject\ram.vhd
+Z139 FD:\College\Sem8\Architecture\ArchProject\ram.vhd
 l0
 L5
-V61VUJ6=oL1i4E?obNR_`13
-!s100 ;1A0b[X@[UXhXc6P;]A>73
+V<XlnceOO8ZBW6oF<fCoOd3
+!s100 V>:_:P[8c^2]o0d>@65W:0
 R6
 32
-Z42 !s110 1713296259
+Z140 !s110 1713400623
 !i10b 1
-Z43 !s108 1713296259.000000
-Z44 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/ram.vhd|
-Z45 !s107 D:/College/Sem8/Architecture/ArchProject/ram.vhd|
+Z141 !s108 1713400623.000000
+Z142 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:\College\Sem8\Architecture\ArchProject\ram.vhd|
+Z143 !s107 D:\College\Sem8\Architecture\ArchProject\ram.vhd|
 !i113 1
 R11
 R12
 Asyncrama
-R14
+R28
 R1
 R2
-DEx4 work 3 ram 0 22 61VUJ6=oL1i4E?obNR_`13
+DEx4 work 3 ram 0 22 <XlnceOO8ZBW6oF<fCoOd3
 l19
 L14
-VX`z616lXUgE8g6]@:VkiK1
-!s100 4ACLXE02hUOiCjQm25l@l0
+VQcmjQQnW9`C20<3<HP:gN3
+!s100 Y@;2UY3BZgLH]EV@RO8zn1
 R6
 32
-R42
+R140
 !i10b 1
-R43
-R44
-R45
+R141
+R142
+R143
 !i113 1
 R11
 R12
 Eregister_file
-Z46 w1710325640
-R14
+Z144 w1713471169
+R28
 R1
 R2
 R3
-Z47 8D:/College/Sem8/Architecture/ArchProject/register_file.vhd
-Z48 FD:/College/Sem8/Architecture/ArchProject/register_file.vhd
+Z145 8D:/College/Sem8/Architecture/ArchProject/register_file.vhd
+Z146 FD:/College/Sem8/Architecture/ArchProject/register_file.vhd
 l0
 L5
-Ve1<M2:To9`j8>Rab1OI_g3
-!s100 FihVUD0D?XdMA2:7i8c[Y3
+VSenAa;j8nhmH<gH4QmO^S0
+!s100 e;mdWJF8^4@J9c]ZBB3O:2
 R6
 32
-R7
+R16
 !i10b 1
-R43
-Z49 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/register_file.vhd|
-Z50 !s107 D:/College/Sem8/Architecture/ArchProject/register_file.vhd|
+R17
+Z147 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/College/Sem8/Architecture/ArchProject/register_file.vhd|
+Z148 !s107 D:/College/Sem8/Architecture/ArchProject/register_file.vhd|
 !i113 1
 R11
 R12
 Aregister_file_arch
-R14
+R28
 R1
 R2
-DEx4 work 13 register_file 0 22 e1<M2:To9`j8>Rab1OI_g3
+DEx4 work 13 register_file 0 22 SenAa;j8nhmH<gH4QmO^S0
 l16
 L13
-VD;`O@J_KWF<_VJP_00:e10
-!s100 1T>OHHfUce2me28X;a9TM2
+V9G?]AAYW99Y7>F1eJlRm21
+!s100 5hUdRVUoHFO9PDiX6MoNA0
 R6
 32
-R7
+R16
 !i10b 1
-R43
-R49
-R50
+R17
+R147
+R148
+!i113 1
+R11
+R12
+Etest
+Z149 w1713389385
+R28
+R1
+R2
+R3
+Z150 8D:\College\Sem8\Architecture\ArchProject\controllertoalu.vhd
+Z151 FD:\College\Sem8\Architecture\ArchProject\controllertoalu.vhd
+l0
+L5
+V5^^TZC:GKX<Z?oK_JoV1Z0
+!s100 KVXKQ?60><^`MCURoQ55]0
+R6
+32
+Z152 !s110 1713389633
+!i10b 1
+Z153 !s108 1713389633.000000
+Z154 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:\College\Sem8\Architecture\ArchProject\controllertoalu.vhd|
+Z155 !s107 D:\College\Sem8\Architecture\ArchProject\controllertoalu.vhd|
+!i113 1
+R11
+R12
+Abehavior
+R28
+R1
+R2
+DEx4 work 4 test 0 22 5^^TZC:GKX<Z?oK_JoV1Z0
+l41
+L15
+V2Y;=EWXUz17R;:1T><oA;0
+!s100 SCAngMiRd488;H]bSUnE_3
+R6
+32
+R152
+!i10b 1
+R153
+R154
+R155
 !i113 1
 R11
 R12

@@ -17,8 +17,10 @@ BEGIN
     BEGIN
         IF reset = '1' THEN
             c <= (OTHERS => '0');
-        ELSIF falling_edge(clk) THEN
+        ELSIF rising_edge(clk) THEN
+            IF enable = '1' THEN
                 c <= std_logic_vector(to_unsigned(to_integer(unsigned(c)) + 1, c'length));
+            END IF;
         END IF;
     END PROCESS;
     count <= c;

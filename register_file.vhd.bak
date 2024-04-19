@@ -6,12 +6,12 @@ ENTITY register_file IS
 	PORT (
 		write_address1, write_address2, read_address1, read_address2 : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
 		clk, write_enable1, write_enable2, reset : IN STD_LOGIC;
-		data_write1, data_write2 : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-		data_read1, data_read2 : OUT STD_LOGIC_VECTOR(31 DOWNTO 0));
+		data_write1, data_write2 : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
+		data_read1, data_read2 : OUT STD_LOGIC_VECTOR(11 DOWNTO 0));
 END ENTITY register_file;
 
 ARCHITECTURE register_file_arch OF register_file IS
-	TYPE reg_array IS ARRAY (0 TO 7) OF STD_LOGIC_VECTOR(31 DOWNTO 0);
+	TYPE reg_array IS ARRAY (0 TO 6) OF STD_LOGIC_VECTOR(11 DOWNTO 0);
 	SIGNAL reg : reg_array;
 BEGIN
 	PROCESS (clk, reset)

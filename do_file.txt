@@ -1,0 +1,115 @@
+vsim -gui work.harvard_cpu
+mem load -filltype value -filldata 0000000000000000 -fillradix symbolic /harvard_cpu/instruction_memory/cache(0)
+mem load -filltype value -filldata {0000000000000000 } -fillradix symbolic /harvard_cpu/instruction_memory/cache(1)
+mem load -filltype value -filldata 0000010000000000 -fillradix symbolic /harvard_cpu/instruction_memory/cache(2)
+mem load -filltype value -filldata 0001000010010000 -fillradix symbolic /harvard_cpu/instruction_memory/cache(3)
+mem load -filltype value -filldata 0001111110010100 -fillradix symbolic /harvard_cpu/instruction_memory/cache(4)
+mem load -filltype value -filldata 0000000000000000 -fillradix symbolic /harvard_cpu/instruction_memory/cache(5)
+mem load -filltype value -filldata 0010000000010100 -fillradix symbolic /harvard_cpu/instruction_memory/cache(6)
+mem load -filltype value -filldata 0000011000010100 -fillradix symbolic /harvard_cpu/instruction_memory/cache(7)
+mem load -skip 0 -filltype inc -filldata 00000000000000000000000000000000 -fillradix symbolic -startaddress 0 -endaddress 7 /harvard_cpu/register_file1/reg
+
+add wave -position insertpoint  \
+sim:/harvard_cpu/clk \
+sim:/harvard_cpu/reset \
+sim:/harvard_cpu/count \
+sim:/harvard_cpu/instruction_cache_out\
+sim:/harvard_cpu/opcode_fd_out \
+sim:/harvard_cpu/dst_fd_out \
+sim:/harvard_cpu/src1_fd_out \
+sim:/harvard_cpu/src2_fd_out \
+sim:/harvard_cpu/alu_op_controller_out \
+sim:/harvard_cpu/write_back_controller_out \
+sim:/harvard_cpu/data_read1_reg_out \
+sim:/harvard_cpu/data_read2_reg_out \
+sim:/harvard_cpu/write_back1_controller_out \
+sim:/harvard_cpu/write_address1_de_out \
+sim:/harvard_cpu/write_back1_de_out \
+sim:/harvard_cpu/alu_op_de_out \
+sim:/harvard_cpu/read_data1_de_out \
+sim:/harvard_cpu/read_data2_de_out \
+sim:/harvard_cpu/alu_out \
+sim:/harvard_cpu/zero_flag_alu_out \
+sim:/harvard_cpu/overflow_flag_alu_out \
+sim:/harvard_cpu/negative_flag_alu_out \
+sim:/harvard_cpu/carry_flag_alu_out \
+sim:/harvard_cpu/write_address1_em_out \
+sim:/harvard_cpu/write_back1_em_out \
+sim:/harvard_cpu/mem_write_em_out \
+sim:/harvard_cpu/mem_read_em_out \
+sim:/harvard_cpu/alu_em_out \
+sim:/harvard_cpu/write_address1_wb_out \
+sim:/harvard_cpu/write_back1_wb_out \
+sim:/harvard_cpu/alu_result_wb_out \
+
+force -freeze sim:/harvard_cpu/clk 0 0, 1 {50 ps} -r 100
+force -freeze sim:/harvard_cpu/reset 1 0
+run
+force -freeze sim:/harvard_cpu/reset 0 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+vsim -gui work.harvard_cpu
+mem load -filltype value -filldata 0000010000000000 -fillradix symbolic /harvard_cpu/instruction_memory/cache(0)
+mem load -filltype value -filldata 0001000010010000 -fillradix symbolic /harvard_cpu/instruction_memory/cache(1)
+mem load -filltype value -filldata 0001111110010100 -fillradix symbolic /harvard_cpu/instruction_memory/cache(2)
+mem load -filltype value -filldata 0000000000000000 -fillradix symbolic /harvard_cpu/instruction_memory/cache(3)
+mem load -filltype value -filldata 0000000000000000 -fillradix symbolic /harvard_cpu/instruction_memory/cache(4)
+mem load -filltype value -filldata 0010000000010100 -fillradix symbolic /harvard_cpu/instruction_memory/cache(5)
+mem load -filltype value -filldata 0100101011100100 -fillradix symbolic /harvard_cpu/instruction_memory/cache(6)
+mem load -filltype value -filldata 0000000000001100 -fillradix symbolic /harvard_cpu/instruction_memory/cache(7)
+mem load -filltype value -filldata 0100101001100100 -fillradix symbolic /harvard_cpu/instruction_memory/cache(8)
+mem load -filltype value -filldata 0000000000001100 -fillradix symbolic /harvard_cpu/instruction_memory/cache(9)
+mem load -skip 0 -filltype inc -filldata 00000000000000000000000000000000 -fillradix symbolic -startaddress 0 -endaddress 7 /harvard_cpu/register_file1/reg
+
+add wave -position insertpoint  \
+sim:/harvard_cpu/clk \
+sim:/harvard_cpu/reset \
+sim:/harvard_cpu/count \
+sim:/harvard_cpu/instruction_cache_out\
+sim:/harvard_cpu/opcode_fd_out \
+sim:/harvard_cpu/dst_fd_out \
+sim:/harvard_cpu/src1_fd_out \
+sim:/harvard_cpu/src2_fd_out \
+sim:/harvard_cpu/alu_op_controller_out \
+sim:/harvard_cpu/data_read1_reg_out \
+sim:/harvard_cpu/data_read2_reg_out \
+sim:/harvard_cpu/write_back1_controller_out \
+sim:/harvard_cpu/write_address1_de_out \
+sim:/harvard_cpu/write_back1_de_out \
+sim:/harvard_cpu/alu_op_de_out \
+sim:/harvard_cpu/read_data1_de_out \
+sim:/harvard_cpu/read_data2_de_out \
+sim:/harvard_cpu/alu_src_de_out \
+sim:/harvard_cpu/alu_src2_in \
+sim:/harvard_cpu/alu_out \
+sim:/harvard_cpu/zero_flag_alu_out \
+sim:/harvard_cpu/overflow_flag_alu_out \
+sim:/harvard_cpu/negative_flag_alu_out \
+sim:/harvard_cpu/carry_flag_alu_out \
+sim:/harvard_cpu/write_address1_em_out \
+sim:/harvard_cpu/write_back1_em_out \
+sim:/harvard_cpu/mem_write_em_out \
+sim:/harvard_cpu/mem_read_em_out \
+sim:/harvard_cpu/alu_em_out \
+sim:/harvard_cpu/write_address1_wb_out \
+sim:/harvard_cpu/write_back1_wb_out \
+sim:/harvard_cpu/alu_result_wb_out \
+
+force -freeze sim:/harvard_cpu/clk 1 0, 0 {50 ps} -r 100
+force -freeze sim:/harvard_cpu/reset 1 0
+run
+force -freeze sim:/harvard_cpu/reset 0 0
+
+

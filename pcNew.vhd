@@ -2,23 +2,21 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 
-ENTITY pc IS
+ENTITY pcNew IS
     PORT (
-        clk, reset : IN STD_LOGIC;
+        clk : IN STD_LOGIC;
         pcIn : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
         count : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
     );
-END pc;
+END pcNew;
 
-ARCHITECTURE pc_arch OF pc IS
+ARCHITECTURE pc_arch OF pcNew IS
     SIGNAL c : STD_LOGIC_VECTOR(31 DOWNTO 0);
 BEGIN
     PROCESS (clk)
     BEGIN
-        IF reset = '1' THEN
-            c <= (OTHERS => '0');
-        ELSIF rising_edge(clk) THEN
-            c <= STD_LOGIC_VECTOR(to_unsigned(to_integer(unsigned(c)) + 1, c'length));
+        IF rising_edge(clk) THEN
+            c <= pcIn;
         END IF;
     END PROCESS;
     count <= c;

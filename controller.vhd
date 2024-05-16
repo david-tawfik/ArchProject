@@ -78,11 +78,32 @@ BEGIN
                 ELSE
                     WB_data_src <= "00";
                 END IF;
-                writeBack1 <= '1';
+
+                IF (opCode(3 DOWNTO 0) = "0010") THEN
+                    memWrite <= '1';
+                    writeBack1 <= '0';
+                ELSE
+                    memWrite <= '0';
+                    writeBack1 <= '1';
+                END IF;
+
+                IF (opCode(3 DOWNTO 0) = "0011") THEN
+                    memRead <= '1';
+                    WB_data_src <= "00";
+                ELSE
+                    memRead <= '0';
+                    WB_data_src <= "01";
+                END IF;
+
+                IF (opCode(3 DOWNTO 0) = "0010") THEN -- LDM
+                    aluOp <= "1111";
+                ELSIF (opCode(3 DOWNTO 0) = "0110") THEN --SUBI
+                    aluOp <= "0110";
+                ELSE
+                    aluOp <= "0101";
+                END IF;
+
                 writeBack2 <= '0';
-                aluOp <= "1111";
-                memRead <= '0';
-                memWrite <= '0';
                 memInReg <= "00";
                 aluSrc <= '1';
                 zero_we <= '0';

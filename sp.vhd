@@ -21,7 +21,7 @@ BEGIN
         
         ELSIF falling_edge(clk) AND spSel = "001" THEN
             spTemp <= STD_LOGIC_VECTOR(unsigned(spTemp) - 2);
-        ELSIF clk'event AND clk='1' AND spSel = "010" THEN
+        ELSIF clk='1' AND spSel = "010" THEN
             spTemp <= STD_LOGIC_VECTOR(unsigned(spTemp) + 2);
         END IF;
     END PROCESS;

@@ -9,6 +9,7 @@ ENTITY controller IS
         writeBack1, writeBack2, memRead, memWrite, zero_we, overflow_we, negative_we, carry_we, outputPort_enable, in_op : OUT STD_LOGIC;
         WB_data_src : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
         memInReg : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
+        sp_sel : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
         aluSrc : OUT STD_LOGIC
     );
 END controller;
@@ -27,8 +28,15 @@ BEGIN
                 END IF;
                 IF (opCode(3 DOWNTO 0) = "0111") THEN
                     aluOp <= "0110"; -- Special case for opcode "0111"
+                ELSIF (opCode(3 downto 0) = "1011") THEN
+                    aluOp <= "0000"; -- Special case for opcode "1000"
+                    sp_sel <= "001";
+                ELSIF (opCode(3 downto 0) = "1100") THEN
+                    aluOp <= "0000"; -- Special case for opcode "1000"
+                    sp_sel <= "010";
                 ELSE
                     aluOp <= opCode(3 DOWNTO 0);
+                    sp_sel <= "000";
                 END IF;
                 IF (opCode(3 DOWNTO 0) = "0000" OR opCode(3 DOWNTO 0) = "1011" OR opCode(3 DOWNTO 0) = "1100") THEN
                     zero_we <= '0';
@@ -49,8 +57,16 @@ BEGIN
                 ELSE
                     WB_data_src <= "01";
                 END IF;
-                memRead <= '0';
-                memWrite <= '0';
+                IF (opCode(3 DOWNTO 0) = "1100") THEN
+                    memRead <= '1';
+                ELSE
+                    memRead <= '0';
+                END IF;
+                IF (opCode(3 DOWNTO 0) = "1011") THEN
+                    memWrite <= '1';
+                ELSE
+                    memWrite <= '0';
+                END IF;
                 memInReg <= "00";
                 aluSrc <= '0';
                 outputPort_enable <= '0';

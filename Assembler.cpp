@@ -296,7 +296,7 @@ void ReadFile(string fileinName)
             while (1)
             {
                 readchar = filein.get(); // Read character by character
-                if (readchar == ' ' || readchar == ',')
+                if (readchar == ' ' || readchar == ',' || readchar == '(' || readchar == ')')
                 {
                     continue;
                 }
@@ -365,7 +365,7 @@ void ReadFile(string fileinName)
             while (1)
             {
                 readchar = filein.get(); // Read character by character
-                if (readchar == ' ' || readchar == ',')
+                if (readchar == ' ' || readchar == ',' || readchar == '(' || readchar == ')')
                 {
                     continue;
                 }
@@ -424,9 +424,15 @@ void ReadFile(string fileinName)
             else if (instruction == "STD" || instruction == "CMP")
             {
                 Rdest = "000";
-                Rsrc1 = firstOperand;
                 Rsrc2 = secondOperand;
+                Rsrc1 = firstOperand;
             }
+            // else if (instruction == "CMP")
+            // {
+            //     Rdest = "000";
+            //     Rsrc2 = secondOperand;
+            //     Rsrc1 = firstOperand;
+            // }
             else if (instruction == "MOV" || instruction == "ADDI" || instruction == "SUBI")
             {
                 Rdest = firstOperand;
@@ -453,7 +459,7 @@ void ReadFile(string fileinName)
             while (1)
             {
                 readchar = filein.get(); // Read character by character
-                if (readchar == ' ' || readchar == ',')
+                if (readchar == ' ' || readchar == ',' || readchar == '(' || readchar == ')')
                 {
                     continue;
                 }

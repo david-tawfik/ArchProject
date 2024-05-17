@@ -115,14 +115,6 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling entity flag_register
 -- Compiling architecture flag_register_arch of flag_register
 
-} {} {}} D:/College/Sem8/Architecture/ArchProject/harvard_cpu.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/harvard_cpu.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Compiling entity harvard_cpu
--- Compiling architecture harvard_cpu_arch of harvard_cpu
-
 } {} {}} D:/College/Sem8/Architecture/ArchProject/memory.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/memory.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD

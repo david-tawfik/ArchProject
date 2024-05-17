@@ -379,7 +379,7 @@ BEGIN
         data_read1 => data_read1_reg_out,
         data_read2 => data_read2_reg_out
     );
-    immediate_value_de_in <= "0000000000000000" & instruction_cache_out WHEN instruction_cache_out(15) = '0'
+    immediate_value_de_in <= "0000000000000000" & instruction_cache_out WHEN instruction_cache_out(15) = '0' OR alu_op_controller_out = "1111"
         ELSE
         "1111111111111111" & instruction_cache_out;
 

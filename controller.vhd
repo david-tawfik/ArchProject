@@ -79,7 +79,7 @@ BEGIN
                     WB_data_src <= "00";
                 END IF;
 
-                IF (opCode(3 DOWNTO 0) = "0010") THEN
+                IF (opCode(3 DOWNTO 0) = "0100") THEN
                     memWrite <= '1';
                     writeBack1 <= '0';
                 ELSE

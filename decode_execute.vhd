@@ -16,6 +16,7 @@ ENTITY decode_execute IS
         WB_data_src_to_DE : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
         OutPort_en_to_DE : IN STD_LOGIC;
         in_op_from_C_to_DE : IN STD_LOGIC;
+        sp_sel_in : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
         write_back1_out, write_back2_out, mem_write_out, mem_read_out, alu_src_out, zero_we_out, overflow_we_out, negative_we_out, carry_we_out : OUT STD_LOGIC;
         alu_op : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
         mem_to_reg_out : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
@@ -25,7 +26,8 @@ ENTITY decode_execute IS
         WB_data_src_from_DE_to_EM : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
         OutPort_en_from_DE_to_EM : OUT STD_LOGIC;
         in_op_from_DE_to_EM : OUT STD_LOGIC;
-        src1_address_EX, src2_address_EX, write_address1_out, write_address2_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
+        src1_address_EX, src2_address_EX, write_address1_out, write_address2_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+        sp_sel_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
     );
 END decode_execute;
 
@@ -42,6 +44,7 @@ ARCHITECTURE decode_execute_arch OF decode_execute IS
     SIGNAL temp_OutputPort_en : STD_LOGIC;
     SIGNAL temp_in_op : STD_LOGIC;
     SIGNAL temp_src1_address, temp_src2_address : STD_LOGIC_VECTOR(2 DOWNTO 0);
+    SIGNAL temp_sp_sel : STD_LOGIC_VECTOR(2 DOWNTO 0);
 BEGIN
     PROCESS (clk, rst)
     BEGIN
@@ -67,6 +70,7 @@ BEGIN
             temp_src1_address <= (OTHERS => '0');
             temp_src2_address <= (OTHERS => '0');
             temp_in_op <= '0';
+            temp_sp_sel <= (OTHERS => '0');
         ELSIF falling_edge(clk) THEN --read in rising edge
             temp_write_back1 <= write_back1_in;
             temp_write_back2 <= write_back2_in;
@@ -90,6 +94,7 @@ BEGIN
             temp_src1_address <= src1_address_in;
             temp_src2_address <= src2_address_in;
             temp_in_op <= in_op_from_C_to_DE;
+            temp_sp_sel <= sp_sel_in;
             --ELSIF clk'event and clk = '0' THEN --write in falling edge
         END IF;
         write_back1_out <= temp_write_back1;
@@ -114,5 +119,6 @@ BEGIN
         src1_address_EX <= temp_src1_address;
         src2_address_EX <= temp_src2_address;
         in_op_from_DE_to_EM <= temp_in_op;
+        sp_sel_out <= temp_sp_sel;
     END PROCESS;
 END decode_execute_arch;

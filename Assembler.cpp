@@ -358,7 +358,7 @@ void ReadFile(string fileinName)
             }
         }
         // Process instructions with two operands
-        else if (instruction == "STD" || instruction == "LDD" || instruction == "MOV" || instruction == "SWAP" || instruction == "CMP" || instruction == "ADDI" || instruction == "SUBI")
+        else if ( instruction == "MOV" || instruction == "SWAP" || instruction == "CMP" || instruction == "ADDI" || instruction == "SUBI")
         {
             instcode = getopCode(instruction);
             char readchar;
@@ -406,7 +406,7 @@ void ReadFile(string fileinName)
                 }
                 else // Read immediate value
                 {
-                    if (instruction == "STD" || instruction == "LDD" || instruction == "ADDI" || instruction == "SUBI")
+                    if (instruction == "ADDI" || instruction == "SUBI")
                     {
                         filein.unget();              // Go back one step
                         filein >> immediatevaluehex; // Receive immediate value
@@ -415,24 +415,12 @@ void ReadFile(string fileinName)
                     }
                 }
             }
-            if (instruction == "LDD")
-            {
-                Rdest = firstOperand;
-                Rsrc1 = "000";
-                Rsrc2 = secondOperand;
-            }
-            else if (instruction == "STD" || instruction == "CMP")
+            if (instruction == "CMP")
             {
                 Rdest = "000";
                 Rsrc2 = secondOperand;
                 Rsrc1 = firstOperand;
             }
-            // else if (instruction == "CMP")
-            // {
-            //     Rdest = "000";
-            //     Rsrc2 = secondOperand;
-            //     Rsrc1 = firstOperand;
-            // }
             else if (instruction == "MOV" || instruction == "ADDI" || instruction == "SUBI")
             {
                 Rdest = firstOperand;
@@ -452,7 +440,7 @@ void ReadFile(string fileinName)
             }
         }
         // Process instructions with three operands
-        else if (instruction == "ADD" || instruction == "AND" || instruction == "OR" || instruction == "SUB" || instruction == "XOR")
+        else if (instruction == "STD" || instruction == "LDD" || instruction == "ADD" || instruction == "AND" || instruction == "OR" || instruction == "SUB" || instruction == "XOR")
         {
             instcode = getopCode(instruction);
             char readchar;
@@ -508,8 +496,34 @@ void ReadFile(string fileinName)
                         }
                     }
                 }
+                else // Read immediate value
+                {
+                    if (instruction == "STD" || instruction == "LDD" || instruction == "ADDI" || instruction == "SUBI")
+                    {
+                        filein.unget();              // Go back one step
+                        filein >> immediatevaluehex; // Receive immediate value
+                        immediatevaluebin = hextobinary(immediatevaluehex);
+                        break;
+                    }
+                }
+            }
+            if (instruction == "LDD")
+            {
+                Rdest = firstOperand;
+                Rsrc1 = "000";
+                Rsrc2 = secondOperand;
+            }
+            else if (instruction == "STD")
+            {
+                Rdest = "000";
+                Rsrc2 = secondOperand;
+                Rsrc1 = firstOperand;
             }
             processInstruction(firstOperand, secondOperand, thirdOperand, instcode, fileout, firstOperandFlag, secondOperandFlag, thirdOperandFlag, counter, counterstring);
+            if (instruction == "LDD" || instruction == "STD" || instruction == "ADDI" || instruction == "SUBI")
+            {
+                getImmediatevalue(counter, immediatevaluebin, fileout, counterstring);
+            }
         }
         else if (instruction[0] != '#' && instruction != ".ORG")
         {

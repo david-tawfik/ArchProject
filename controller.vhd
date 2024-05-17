@@ -62,9 +62,16 @@ BEGIN
                 ELSE
                     WB_data_src <= "00";
                 END IF;
+                IF (opCode(3 DOWNTO 0) = "0101") THEN
+                    aluOp <= "0101";
+                ELSIF (opCode(3 DOWNTO 0) = "0110") THEN
+                    aluOp <= "0110";
+                ELSE
+                    aluOp <= "1111";
+                END IF;
                 writeBack1 <= '1';
                 writeBack2 <= '0';
-                aluOp <= "1111";
+
                 memRead <= '0';
                 memWrite <= '0';
                 memInReg <= "00";

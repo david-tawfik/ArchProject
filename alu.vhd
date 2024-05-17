@@ -40,16 +40,19 @@ BEGIN
         NOT B WHEN sel = "0110" ELSE
         (OTHERS => '0');
 
-    carryIn <= '1' WHEN sel = "0010" OR sel = "0011" OR sel = "0110" ELSE '0';
+    carryIn <= '1' WHEN sel = "0010" OR sel = "0011" OR sel = "0110" ELSE
+        '0';
 
     nadder1 : my_nadder PORT MAP(src1, src2, carryIn, result, carryOut);
 
-    zeroFlag <= '1' WHEN result = "00000000000000000000000000000000" ELSE '0';
-    overflowFlag <= '1' WHEN ( (src1(31) = '1' AND src2(31) = '1' AND NOT result(31) = '1')
+    zeroFlag <= '1' WHEN result = "00000000000000000000000000000000" ELSE
+        '0';
+    overflowFlag <= '1' WHEN ((src1(31) = '1' AND src2(31) = '1' AND NOT result(31) = '1')
         OR (NOT src1(31) = '1' AND NOT src2(31) = '1' AND result(31) = '1')
         OR ((sel = "0010" OR sel = "0011" OR sel = "0100") AND ((src1(31) = '1' AND result(31) = '0') OR (src1(31) = '0' AND result(31) = '1'))))
-	    AND (result /= "00000000000000000000000000000000")
-        ELSE '0';
+        AND (result /= "00000000000000000000000000000000")
+        ELSE
+        '0';
     negativeFlag <= result(31);
     F <= result;
     carryFlag <= carryOut;

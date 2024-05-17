@@ -18,9 +18,9 @@ BEGIN
 	BEGIN
 		IF reset = '1' THEN
 			reg <= (OTHERS => (OTHERS => '0'));
-		ELSIF clk = '1' THEN	
-		IF write_enable1 = '1' THEN
-				reg(to_integer(unsigned(write_address1))) <= data_write1;  
+		ELSIF clk = '1' THEN
+			IF write_enable1 = '1' THEN
+				reg(to_integer(unsigned(write_address1))) <= data_write1;
 			END IF;
 			IF write_enable2 = '1' THEN
 				reg(to_integer(unsigned(write_address2))) <= data_write2;

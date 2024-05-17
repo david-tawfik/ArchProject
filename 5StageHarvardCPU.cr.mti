@@ -1,4 +1,13 @@
-D:/College/Sem8/Architecture/ArchProject/cpu.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/cpu.vhd
+D:/College/Sem8/Architecture/ArchProject/ram.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/ram.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity ram
+-- Compiling architecture syncrama of ram
+
+} {} {}} D:/College/Sem8/Architecture/ArchProject/cpu.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/cpu.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
@@ -31,6 +40,14 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling entity my_nDFF
 -- Compiling architecture b_my_nDFF of my_nDFF
 
+} {} {}} D:/College/Sem8/Architecture/ArchProject/mux2.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/mux2.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity mux2x1
+-- Compiling architecture arch1 of mux2x1
+
 } {} {}} D:/College/Sem8/Architecture/ArchProject/cache.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/cache.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
@@ -39,6 +56,15 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Loading package NUMERIC_STD
 -- Compiling entity cache
 -- Compiling architecture synccachea of cache
+
+} {} {}} D:/College/Sem8/Architecture/ArchProject/pcNew.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/pcNew.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity pcNew
+-- Compiling architecture pc_arch of pcNew
 
 } {} {}} D:/College/Sem8/Architecture/ArchProject/fetch_decode.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/fetch_decode.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
@@ -56,30 +82,30 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling entity my_DFF
 -- Compiling architecture a_my_DFF of my_DFF
 
-} {} {}} D:/College/Sem8/Architecture/ArchProject/harvard_cpu.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/harvard_cpu.vhd
+} {} {}} D:/College/Sem8/Architecture/ArchProject/outputPort.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/outputPort.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
--- Compiling entity harvard_cpu
--- Compiling architecture harvard_cpu_arch of harvard_cpu
+-- Compiling entity outputPort
+-- Compiling architecture arch1 of outputPort
 
-} {} {}} D:/College/Sem8/Architecture/ArchProject/memory_wb.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/memory_wb.vhd
+} {} {}} D:/College/Sem8/Architecture/ArchProject/mux4.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/mux4.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
--- Compiling entity memory_wb
--- Compiling architecture memory_wb_arch of memory_wb
+-- Compiling entity mux4
+-- Compiling architecture arch1 of mux4
 
-} {} {}} D:/College/Sem8/Architecture/ArchProject/memory.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/memory.vhd
+} {} {}} D:/College/Sem8/Architecture/ArchProject/flag_register.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/flag_register.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
 -- Loading package NUMERIC_STD
--- Compiling entity memory
--- Compiling architecture mem_arch of memory
+-- Compiling entity flag_register
+-- Compiling architecture flag_register_arch of flag_register
 
 } {} {}} D:/College/Sem8/Architecture/ArchProject/controllertoalu.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/controllertoalu.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
@@ -90,15 +116,31 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling entity controllertoalu
 -- Compiling architecture behavior of controllertoalu
 
-} {} {}} D:/College/Sem8/Architecture/ArchProject/alu.vhd {2 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/alu.vhd
+} {} {}} D:/College/Sem8/Architecture/ArchProject/mux8.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/mux8.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
--- Compiling entity alu
--- Compiling architecture alu_arch of alu
-** Warning: D:/College/Sem8/Architecture/ArchProject/alu.vhd(50): (vcom-1083) Implicit array operator "=" always returns FALSE (left length 4 is not equal to right length 2).
-** Warning: D:/College/Sem8/Architecture/ArchProject/alu.vhd(54): (vcom-1083) Implicit array operator "=" always returns FALSE (left length 4 is not equal to right length 2).
+-- Compiling entity mux8x1
+-- Compiling architecture arch1 of mux8x1
+
+} {} {}} D:/College/Sem8/Architecture/ArchProject/sp.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/sp.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity sp
+-- Compiling architecture sp_arch of sp
+
+} {} {}} D:/College/Sem8/Architecture/ArchProject/pcAdder.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/pcAdder.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity pcAdder
+-- Compiling architecture arch1 of pcAdder
 
 } {} {}} D:/College/Sem8/Architecture/ArchProject/my_nadder.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/my_nadder.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
@@ -107,23 +149,6 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Loading package std_logic_1164
 -- Compiling entity my_nadder
 -- Compiling architecture a_my_adder of my_nadder
-
-} {} {}} D:/College/Sem8/Architecture/ArchProject/execute_memory.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/execute_memory.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Compiling entity execute_memory
--- Compiling architecture execute_memory_arch of execute_memory
-
-} {} {}} D:/College/Sem8/Architecture/ArchProject/register_file.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/register_file.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Compiling entity register_file
--- Compiling architecture register_file_arch of register_file
 
 } {} {}} D:/College/Sem8/Architecture/ArchProject/integration.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/integration.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
@@ -141,13 +166,5 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Loading package std_logic_1164
 -- Compiling entity my_adder
 -- Compiling architecture a_my_adder of my_adder
-
-} {} {}} D:/College/Sem8/Architecture/ArchProject/decode_execute.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/decode_execute.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Compiling entity decode_execute
--- Compiling architecture decode_execute_arch of decode_execute
 
 } {} {}}

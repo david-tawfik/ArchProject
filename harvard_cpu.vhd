@@ -226,9 +226,11 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
             InputPort_from_EM_to_MWB, InputPort_from_MWB : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
             WB1_MEM, WB2_MEM, WB1_WB, WB2_WB : IN STD_LOGIC;
             in_op_from_EM, in_op_from_MWB : IN STD_LOGIC;
+            src2_data_mem, src2_data_wb : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
             forwarded_value1, forwarded_value2 : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
             forward_sel1 : OUT STD_LOGIC;
             forward_sel2 : OUT STD_LOGIC
+
         );
     END COMPONENT forwardcheckingunit;
 
@@ -375,7 +377,7 @@ BEGIN
         write_enable2 => write_back2_wb_out,
         reset => '0',
         data_write1 => WB1_data,
-        data_write2 => memory_data_wb_out,
+        data_write2 => data_read2_wb_out,
         data_read1 => data_read1_reg_out,
         data_read2 => data_read2_reg_out
     );
@@ -497,7 +499,9 @@ BEGIN
         InputPort_from_EM_to_MWB => InputPort_from_EM_to_MWB,
         InputPort_from_MWB => InputPort_from_MWB,
         in_op_from_EM => in_op_from_EM,
-        in_op_from_MWB => in_op_from_MWB
+        in_op_from_MWB => in_op_from_MWB,
+        src2_data_mem => data_read2_em_out,
+        src2_data_wb => data_read2_wb_out
     );
 
     execute_memory1 : execute_memory PORT MAP(
@@ -511,7 +515,7 @@ BEGIN
         write_address1_in => write_address1_de_out,
         write_address2_in => write_address2_de_out,
         alu_result_in => alu_out,
-        read_data2_in => read_data2_de_out,
+        read_data2_in => alu_src2_after_mux,
         zero_in => zero_flag_alu_out,
         negative_in => negative_flag_alu_out,
         overflow_in => overflow_flag_alu_out,

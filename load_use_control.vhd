@@ -11,16 +11,6 @@ END ENTITY load_use_control;
 
 ARCHITECTURE load_use_control_arch OF load_use_control IS
 BEGIN
-    load_use_enable <= '0';
-
-    process(reset, write_back_de, mem_read_de, src1_needed, src2_needed, Rdst_de, Rsrc1_fd, Rsrc2_fd)
-    begin
-        if reset = '1' then
-            load_use_enable <= '0';
-        elsif (write_back_de = '1' AND mem_read_de = '1' AND ((Rdst_de = Rsrc1_fd AND src1_needed = '1') OR (Rdst_de = Rsrc2_fd AND src2_needed = '1'))) then
-            load_use_enable <= '1';
-        else
-            load_use_enable <= '0';
-        end if;
-    end process;
+    load_use_enable <= '1' WHEN  (write_back_de = '1' AND mem_read_de = '1' AND ((Rdst_de = Rsrc1_fd AND src1_needed = '1') OR (Rdst_de = Rsrc2_fd AND src2_needed = '1')))
+    ELSE '0';
 END load_use_control_arch;

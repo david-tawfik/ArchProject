@@ -12,5 +12,5 @@ END pcAdder;
 
 ARCHITECTURE arch1 OF pcAdder IS
 BEGIN
-    out1 <= STD_LOGIC_VECTOR(unsigned(in1) + 1) WHEN (stall = '0') ELSE in1;
+    out1 <= in1 WHEN (stall = '1') ELSE STD_LOGIC_VECTOR(unsigned(in1) + 1);
 END arch1;

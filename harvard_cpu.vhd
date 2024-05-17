@@ -175,32 +175,34 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
     END COMPONENT;
 
     COMPONENT memory_wb IS
-        PORT (
-            Clk, Rst : IN STD_LOGIC;
-            write_back1_in : IN STD_LOGIC;
-            write_back2_in : IN STD_LOGIC;
-            mem_to_reg_in : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
-            write_address1_in, write_address2_in : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
-            memory_data_in : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-            alu_result_in : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-            data_read2_in : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-            zero_in, negative_in, overflow_in, carry_in : IN STD_LOGIC;
-            InputPort_from_EM_to_MWB : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-            WB_data_src_from_EM_to_MWB : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
-            OutPort_en_from_EM_to_MWB : IN STD_LOGIC;
-            in_op_from_EM_to_MWB : IN STD_LOGIC;
+    PORT (
+        Clk, Rst : IN STD_LOGIC;
+        write_back1_in : IN STD_LOGIC;
+        write_back2_in : IN STD_LOGIC;
+        mem_to_reg_in : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
+        write_address1_in, write_address2_in : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+        memory_data_in : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+        alu_result_in : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+        data_read2_in : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+        zero_in, negative_in, overflow_in, carry_in : IN STD_LOGIC;
+        InputPort_from_EM_to_MWB : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+        WB_data_src_from_EM_to_MWB : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
+        OutPort_en_from_EM_to_MWB : IN STD_LOGIC;
+        in_op_from_EM_to_MWB : IN STD_LOGIC;
+        memory_read_from_EM_to_MWB : IN STD_LOGIC;
 
-            InputPort_from_MWB : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-            write_back1_out : OUT STD_LOGIC;
-            write_back2_out : OUT STD_LOGIC;
-            mem_to_reg_out : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
-            read_data2_out, alu_result_out, memory_data_out : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-            write_address1_out, write_address2_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-            WB_data_src_from_MWB : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
-            zero_out, negative_out, overflow_out, carry_out : OUT STD_LOGIC;
-            in_op_from_MWB : OUT STD_LOGIC;
-            Outport_en_from_MWB : OUT STD_LOGIC
-        );
+        InputPort_from_MWB : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+        write_back1_out : OUT STD_LOGIC;
+        write_back2_out : OUT STD_LOGIC;
+        mem_to_reg_out : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
+        read_data2_out, alu_result_out, memory_data_out : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+        write_address1_out, write_address2_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+        WB_data_src_from_MWB : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
+        zero_out, negative_out, overflow_out, carry_out : OUT STD_LOGIC;
+        in_op_from_MWB : OUT STD_LOGIC;
+        Outport_en_from_MWB : OUT STD_LOGIC;
+        memory_read_from_MWB : OUT STD_LOGIC
+    );
     END COMPONENT memory_wb;
 
     COMPONENT mux2x1 IS
@@ -234,20 +236,22 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
     END COMPONENT outputPort;
 
     COMPONENT forwardcheckingunit IS
-        PORT (
-            src1_address_EX, src2_address_EX : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
-            Dst1_address_MEM, Dst2_address_MEM, Dst1_address_WB, Dst2_address_WB : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
-            alu_out_MEM : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-            alu_out_WB : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-            InputPort_from_EM_to_MWB, InputPort_from_MWB : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-            WB1_MEM, WB2_MEM, WB1_WB, WB2_WB : IN STD_LOGIC;
-            in_op_from_EM, in_op_from_MWB : IN STD_LOGIC;
-            src2_data_mem, src2_data_wb : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-            forwarded_value1, forwarded_value2 : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-            forward_sel1 : OUT STD_LOGIC;
-            forward_sel2 : OUT STD_LOGIC
+    PORT (
+        src1_address_EX, src2_address_EX : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+        Dst1_address_MEM, Dst2_address_MEM, Dst1_address_WB, Dst2_address_WB : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+        alu_out_MEM : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+        alu_out_WB : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+        InputPort_from_EM_to_MWB, InputPort_from_MWB : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+        WB1_MEM, WB2_MEM, WB1_WB, WB2_WB : IN STD_LOGIC;
+        in_op_from_EM, in_op_from_MWB : IN STD_LOGIC;
+        src2_data_mem, src2_data_wb : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+        forwarded_value1, forwarded_value2 : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+        memory_out_write_back : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+        memory_read_write_back : IN STD_LOGIC;
+        forward_sel1 : OUT STD_LOGIC;
+        forward_sel2 : OUT STD_LOGIC
 
-        );
+    );
     END COMPONENT forwardcheckingunit;
 
     COMPONENT sp IS
@@ -334,7 +338,8 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
     SIGNAL src1_needed_controller_out, src2_needed_controller_out : STD_LOGIC;
 
     SIGNAL load_use_enable_out : STD_LOGIC;
-    SIGNAL em_reset : STD_LOGIC;
+    SIGNAL de_reset : STD_LOGIC;
+    Signal memory_read_from_MWB : STD_LOGIC;
 
 BEGIN
     reset2x1MuxBeforePc : mux2x1 GENERIC MAP(
@@ -434,10 +439,10 @@ BEGIN
     immediate_value_de_in <= "0000000000000000" & instruction_cache_out WHEN instruction_cache_out(15) = '0' OR alu_op_controller_out = "1111"
         ELSE
         "1111111111111111" & instruction_cache_out;
-
+    de_reset <= reset OR load_use_enable_out;
     decode_execute1 : decode_execute PORT MAP(
         Clk => clk,
-        Rst => reset,
+        Rst => de_reset,
         noWrite => load_use_enable_out,
         write_back1_in => write_back1_controller_out,
         mem_write_in => mem_write_controller_out,
@@ -553,13 +558,15 @@ BEGIN
         in_op_from_EM => in_op_from_EM,
         in_op_from_MWB => in_op_from_MWB,
         src2_data_mem => data_read2_em_out,
-        src2_data_wb => data_read2_wb_out
+        src2_data_wb => data_read2_wb_out,
+        memory_out_write_back => memory_data_wb_out,
+        memory_read_write_back => memory_read_from_MWB
     );
-    em_reset <= reset OR load_use_enable_out;
+    
 
     execute_memory1 : execute_memory PORT MAP(
         Clk => clk,
-        Rst => em_reset,
+        Rst => reset,
         write_back1_in => write_back1_de_out,
         write_back2_in => write_back2_de_out,
         mem_write_in => mem_write_de_out,
@@ -680,7 +687,10 @@ BEGIN
         OutPort_en_from_EM_to_MWB => outport_en_from_EM_to_MWB,
         Outport_en_from_MWB => outport_en_from_MWB,
         in_op_from_EM_to_MWB => in_op_from_EM,
-        in_op_from_MWB => in_op_from_MWB
+        in_op_from_MWB => in_op_from_MWB,
+        memory_read_from_EM_to_MWB => mem_read_em_out,
+        memory_read_from_MWB => memory_read_from_MWB
+        
     );
 
     WB_data_src_mux : mux4 GENERIC MAP(

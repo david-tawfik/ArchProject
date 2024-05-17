@@ -16,6 +16,7 @@ ENTITY memory_wb IS
         WB_data_src_from_EM_to_MWB : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
         OutPort_en_from_EM_to_MWB : IN STD_LOGIC;
         in_op_from_EM_to_MWB : IN STD_LOGIC;
+        memory_read_from_EM_to_MWB : IN STD_LOGIC;
 
         InputPort_from_MWB : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
         write_back1_out : OUT STD_LOGIC;
@@ -26,7 +27,8 @@ ENTITY memory_wb IS
         WB_data_src_from_MWB : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
         zero_out, negative_out, overflow_out, carry_out : OUT STD_LOGIC;
         in_op_from_MWB : OUT STD_LOGIC;
-        Outport_en_from_MWB : OUT STD_LOGIC
+        Outport_en_from_MWB : OUT STD_LOGIC;
+        memory_read_from_MWB : OUT STD_LOGIC
     );
 END memory_wb;
 
@@ -41,6 +43,7 @@ ARCHITECTURE memory_wb_arch OF memory_wb IS
     SIGNAL temp_OutPort_en : STD_LOGIC;
     SIGNAL temp_in_op : STD_LOGIC;
     SIGNAL temp_write_back2 : STD_LOGIC;
+    Signal temp_memory_read : STD_LOGIC;
 
 BEGIN
     PROCESS (clk, rst)
@@ -62,6 +65,7 @@ BEGIN
             temp_OutPort_en <= '0';
             temp_in_op <= '0';
             temp_write_back2 <= '0';
+            temp_memory_read <= '0';
         ELSIF falling_edge(clk) THEN --read in rising edge
             temp_write_back1 <= write_back1_in;
             temp_mem_to_reg <= mem_to_reg_in;
@@ -79,6 +83,7 @@ BEGIN
             temp_OutPort_en <= OutPort_en_from_EM_to_MWB;
             temp_in_op <= in_op_from_EM_to_MWB;
             temp_write_back2 <= write_back2_in;
+            temp_memory_read <= memory_read_from_EM_to_MWB;
 
         ELSIF rising_edge (clk) THEN
             write_back1_out <= temp_write_back1;
@@ -97,6 +102,7 @@ BEGIN
             Outport_en_from_MWB <= temp_OutPort_en;
             in_op_from_MWB <= temp_in_op;
             write_back2_out <= temp_write_back2;
+            memory_read_from_MWB <= temp_memory_read;
         END IF;
 
     END PROCESS;

@@ -12,6 +12,8 @@ ENTITY forwardcheckingunit IS
         in_op_from_EM, in_op_from_MWB : IN STD_LOGIC;
         src2_data_mem, src2_data_wb : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
         forwarded_value1, forwarded_value2 : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+        memory_out_write_back : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+        memory_read_write_back : IN STD_LOGIC;
         forward_sel1 : OUT STD_LOGIC;
         forward_sel2 : OUT STD_LOGIC
 
@@ -26,6 +28,8 @@ BEGIN
         VARIABLE isMEM2 : BOOLEAN := FALSE;
         VARIABLE isSwap1 : BOOLEAN := FALSE;
         VARIABLE isSwap2 : BOOLEAN := FALSE;
+        VARIABLE isLoad1 : BOOLEAN := FALSE;
+        VARIABLE isLoad2 : BOOLEAN := FALSE;
 
     BEGIN
         -- Default values
@@ -33,13 +37,18 @@ BEGIN
         isMEM2 := FALSE;
         isSwap1 := FALSE;
         isSwap2 := FALSE;
+        isLoad1 := FALSE;
+        isLoad2 := FALSE;
         forward_sel1 <= '0';
         forward_sel2 <= '0';
         forwarded_value1 <= (OTHERS => '0');
         forwarded_value2 <= (OTHERS => '0');
-
-        IF (src1_address_EX = Dst1_address_WB AND WB1_WB = '1') THEN
+        IF (src1_address_EX = Dst1_address_WB AND WB1_WB = '1' AND memory_read_write_back = '1') THEN
             forward_sel1 <= '1';
+            isLoad1 := TRUE;
+        ELSIF (src1_address_EX = Dst1_address_WB AND WB1_WB = '1') THEN
+            forward_sel1 <= '1';
+
         ELSIF (src1_address_EX = Dst2_address_WB AND WB2_WB = '1') THEN
             forward_sel1 <= '1';
             isSwap1 := TRUE;
@@ -56,7 +65,10 @@ BEGIN
         END IF;
 
         -- Forwarding logic for src2_address_EX
-        IF (src2_address_EX = Dst1_address_WB AND WB1_WB = '1') THEN
+        IF (src2_address_EX = Dst1_address_WB AND WB1_WB = '1' AND memory_read_write_back = '1') THEN
+            forward_sel2 <= '1';
+            isLoad2 := TRUE;
+        ELSIF (src2_address_EX = Dst1_address_WB AND WB1_WB = '1') THEN
             forward_sel2 <= '1';
         ELSIF (src2_address_EX = Dst2_address_WB AND WB2_WB = '1') THEN
             forward_sel2 <= '1';
@@ -89,6 +101,9 @@ BEGIN
             ELSE
                 forwarded_value1 <= InputPort_from_MWB;
             END IF;
+            IF (isLoad1 = TRUE) THEN
+                forwarded_value1 <= memory_out_write_back;
+            END IF;
         END IF;
         IF (isMEM2 = TRUE) THEN
             IF (in_op_from_EM = '0' AND isSwap2 = FALSE) THEN
@@ -106,6 +121,9 @@ BEGIN
             ELSE
                 forwarded_value2 <= InputPort_from_MWB;
             END IF;
+            if (isLoad2 = TRUE) then
+                forwarded_value2 <= memory_out_write_back;
+            end if ;
         END IF;
     END PROCESS;
 

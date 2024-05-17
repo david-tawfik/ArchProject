@@ -1,7 +1,6 @@
 // memory data file (do not edit the following line - required for mem load use)
 // instance=/processor/f1/m1/ram
 // format=mti addressradix=d dataradix=s version=1.0 wordsperline=1
-  0: 0000001100000000
 768: 1100010100100000
 769: 1100010110110000
 770: 1100010010010000

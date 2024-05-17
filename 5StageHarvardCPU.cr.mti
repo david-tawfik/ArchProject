@@ -32,14 +32,6 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling entity adder
 -- Compiling architecture arch_my_adder of adder
 
-} {} {}} D:/College/Sem8/Architecture/ArchProject/forwardcheckingunit.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/forwardcheckingunit.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Compiling entity forwardcheckingunit
--- Compiling architecture fcu_arch of forwardcheckingunit
-
 } {} {}} D:/College/Sem8/Architecture/ArchProject/pc.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/pc.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
@@ -151,14 +143,6 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling entity memory
 -- Compiling architecture mem_arch of memory
 
-} {} {}} D:/College/Sem8/Architecture/ArchProject/memory_wb.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/memory_wb.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Compiling entity memory_wb
--- Compiling architecture memory_wb_arch of memory_wb
-
 } {} {}} D:/College/Sem8/Architecture/ArchProject/alu.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/alu.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
@@ -208,6 +192,14 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Loading package NUMERIC_STD
 -- Compiling entity sp
 -- Compiling architecture sp_arch of sp
+
+} {} {}} D:/College/Sem8/Architecture/ArchProject/load_use_control.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/load_use_control.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity load_use_control
+-- Compiling architecture load_use_control_arch of load_use_control
 
 } {} {}} D:/College/Sem8/Architecture/ArchProject/register_file.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/register_file.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016

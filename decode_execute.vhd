@@ -77,7 +77,7 @@ BEGIN
             temp_sp_sel <= (OTHERS => '0');
             temp_pf_enable <= (OTHERS => '0');
 
-        ELSIF falling_edge(clk) and noWrite='0' THEN --read in rising edge
+        ELSIF falling_edge(clk) THEN --read in rising edge
             temp_write_back1 <= write_back1_in;
             temp_write_back2 <= write_back2_in;
             temp_mem_write <= mem_write_in;

@@ -4,7 +4,7 @@ USE IEEE.STD_LOGIC_1164.ALL;
 
 ENTITY fetch_decode IS
     PORT (
-        Clk, Rst : IN STD_LOGIC;
+        Clk, Rst, noWrite : IN STD_LOGIC;
         instruction : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
         InputPort_to_FD : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
         InputPort_from_FD_to_DE : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -26,7 +26,7 @@ BEGIN
             temp_dst <= "000";
             temp_src1 <= "000";
             temp_src2 <= "000";
-        ELSIF falling_edge(clk) THEN
+        ELSIF falling_edge(clk) and noWrite='0' THEN
             temp_op_code <= instruction(15 DOWNTO 10);
             temp_dst <= instruction(9 DOWNTO 7);
             temp_src1 <= instruction(6 DOWNTO 4);

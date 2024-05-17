@@ -7,8 +7,8 @@
 using namespace std;
 
 // Function declarations
-void processInstruction(string Rdest, string Rsrc1, string Rsrc2, string &instcode, ofstream &fileout, int &firstOperandFlag, int &secondOperandFlag, int &thirdOperandFlag, int &counter, string &counterstring);
-void getImmediatevalue(int &counter, string &immediatevaluebin, ofstream &fileout, string &counterstring);
+void processInstruction(string Rdest, string Rsrc1, string Rsrc2, string& instcode, ofstream& fileout, int& firstOperandFlag, int& secondOperandFlag, int& thirdOperandFlag, int& counter, string& counterstring);
+void getImmediatevalue(int& counter, string& immediatevaluebin, ofstream& fileout, string& counterstring);
 void ReadFile(string fileinName);
 string decimalToBinary(char num);
 string getopCode(string instruction);
@@ -23,7 +23,7 @@ int main()
 }
 
 // Function to process instructions with no operands
-void processInstruction(string Rdest, string Rsrc1, string Rsrc2, string &instcode, ofstream &fileout, int &firstOperandFlag, int &secondOperandFlag, int &thirdOperandFlag, int &counter, string &counterstring)
+void processInstruction(string Rdest, string Rsrc1, string Rsrc2, string& instcode, ofstream& fileout, int& firstOperandFlag, int& secondOperandFlag, int& thirdOperandFlag, int& counter, string& counterstring)
 {
     instcode.append(Rdest);
     instcode.append(Rsrc1);
@@ -38,7 +38,7 @@ void processInstruction(string Rdest, string Rsrc1, string Rsrc2, string &instco
 }
 
 // Function to process instructions with immediate values
-void getImmediatevalue(int &counter, string &immediatevaluebin, ofstream &fileout, string &counterstring)
+void getImmediatevalue(int& counter, string& immediatevaluebin, ofstream& fileout, string& counterstring)
 {
     if (counter / 10 == 0)
     {
@@ -296,7 +296,7 @@ void ReadFile(string fileinName)
             while (1)
             {
                 readchar = filein.get(); // Read character by character
-                if (readchar == ' ' || readchar == ',' || readchar == '(' || readchar == ')')
+                if (readchar == ' ' || readchar == ',')
                 {
                     continue;
                 }
@@ -358,14 +358,14 @@ void ReadFile(string fileinName)
             }
         }
         // Process instructions with two operands
-        else if ( instruction == "MOV" || instruction == "SWAP" || instruction == "CMP" || instruction == "ADDI" || instruction == "SUBI")
+        else if (instruction == "STD" || instruction == "LDD" || instruction == "MOV" || instruction == "SWAP" || instruction == "CMP" || instruction == "ADDI" || instruction == "SUBI")
         {
             instcode = getopCode(instruction);
             char readchar;
             while (1)
             {
                 readchar = filein.get(); // Read character by character
-                if (readchar == ' ' || readchar == ',' || readchar == '(' || readchar == ')')
+                if (readchar == ' ' || readchar == ',')
                 {
                     continue;
                 }
@@ -406,20 +406,50 @@ void ReadFile(string fileinName)
                 }
                 else // Read immediate value
                 {
-                    if (instruction == "ADDI" || instruction == "SUBI")
+                    if (instruction == "STD" || instruction == "LDD" || instruction == "ADDI" || instruction == "SUBI")
                     {
                         filein.unget();              // Go back one step
                         filein >> immediatevaluehex; // Receive immediate value
                         immediatevaluebin = hextobinary(immediatevaluehex);
+                        if (instruction == "STD" || instruction == "LDD")
+                        {
+                            std::size_t pos = immediatevaluehex.find('('); // Find the position of the first '('
+
+                            if (pos != std::string::npos) { // Check if '(' is found
+                                std::string firstPart = immediatevaluehex.substr(0, pos); // Extract substring up to '('
+                                std::size_t endPos = immediatevaluehex.find(')'); // Find the position of the first ')'
+
+                                if (endPos != std::string::npos) { // Check if ')' is found
+                                    std::string secondPart = immediatevaluehex.substr(pos + 2, endPos - pos - 2); // Extract substring between '(' and ')'
+                                    secondOperand = decimalToBinary(secondPart[0]);
+                                    immediatevaluebin = hextobinary(firstPart);
+
+                                    // Extract the numeric part from secondPart (which is "R5")
+                                }
+                            }
+                            
+                        }
                         break;
                     }
                 }
             }
-            if (instruction == "CMP")
+            if (instruction == "LDD")
+            {
+                Rdest = firstOperand;
+                Rsrc1 = secondOperand;
+                Rsrc2 = "000";
+            }
+            else if ( instruction == "CMP")
             {
                 Rdest = "000";
-                Rsrc2 = secondOperand;
                 Rsrc1 = firstOperand;
+                Rsrc2 = secondOperand;
+            }
+            else if (instruction == "STD")
+            {
+                Rdest = "000";
+                Rsrc1 = secondOperand;
+                Rsrc2 = firstOperand;
             }
             else if (instruction == "MOV" || instruction == "ADDI" || instruction == "SUBI")
             {
@@ -440,14 +470,14 @@ void ReadFile(string fileinName)
             }
         }
         // Process instructions with three operands
-        else if (instruction == "STD" || instruction == "LDD" || instruction == "ADD" || instruction == "AND" || instruction == "OR" || instruction == "SUB" || instruction == "XOR")
+        else if (instruction == "ADD" || instruction == "AND" || instruction == "OR" || instruction == "SUB" || instruction == "XOR")
         {
             instcode = getopCode(instruction);
             char readchar;
             while (1)
             {
                 readchar = filein.get(); // Read character by character
-                if (readchar == ' ' || readchar == ',' || readchar == '(' || readchar == ')')
+                if (readchar == ' ' || readchar == ',')
                 {
                     continue;
                 }
@@ -496,34 +526,8 @@ void ReadFile(string fileinName)
                         }
                     }
                 }
-                else // Read immediate value
-                {
-                    if (instruction == "STD" || instruction == "LDD" || instruction == "ADDI" || instruction == "SUBI")
-                    {
-                        filein.unget();              // Go back one step
-                        filein >> immediatevaluehex; // Receive immediate value
-                        immediatevaluebin = hextobinary(immediatevaluehex);
-                        break;
-                    }
-                }
-            }
-            if (instruction == "LDD")
-            {
-                Rdest = firstOperand;
-                Rsrc1 = "000";
-                Rsrc2 = secondOperand;
-            }
-            else if (instruction == "STD")
-            {
-                Rdest = "000";
-                Rsrc2 = secondOperand;
-                Rsrc1 = firstOperand;
             }
             processInstruction(firstOperand, secondOperand, thirdOperand, instcode, fileout, firstOperandFlag, secondOperandFlag, thirdOperandFlag, counter, counterstring);
-            if (instruction == "LDD" || instruction == "STD" || instruction == "ADDI" || instruction == "SUBI")
-            {
-                getImmediatevalue(counter, immediatevaluebin, fileout, counterstring);
-            }
         }
         else if (instruction[0] != '#' && instruction != ".ORG")
         {

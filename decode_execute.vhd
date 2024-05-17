@@ -5,7 +5,7 @@ USE IEEE.STD_LOGIC_1164.ALL;
 
 ENTITY decode_execute IS
     PORT (
-        Clk, Rst : IN STD_LOGIC;
+        Clk, Rst, noWrite : IN STD_LOGIC;
         write_back1_in, write_back2_in, mem_write_in, mem_read_in, alu_src_in, zero_we_in, overflow_we_in, negative_we_in, carry_we_in : IN STD_LOGIC;
         mem_to_reg_in : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
         alu_op_in : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
@@ -18,6 +18,7 @@ ENTITY decode_execute IS
         in_op_from_C_to_DE : IN STD_LOGIC;
         sp_sel_in : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
         write_back1_out, write_back2_out, mem_write_out, mem_read_out, alu_src_out, zero_we_out, overflow_we_out, negative_we_out, carry_we_out : OUT STD_LOGIC;
+        pf_enable_in : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
         alu_op : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
         mem_to_reg_out : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
         read_data1_out, read_data2_out : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -27,7 +28,8 @@ ENTITY decode_execute IS
         OutPort_en_from_DE_to_EM : OUT STD_LOGIC;
         in_op_from_DE_to_EM : OUT STD_LOGIC;
         src1_address_EX, src2_address_EX, write_address1_out, write_address2_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-        sp_sel_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
+        sp_sel_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+        pf_enable_out : OUT STD_LOGIC_VECTOR(1 DOWNTO 0)
     );
 END decode_execute;
 
@@ -45,6 +47,8 @@ ARCHITECTURE decode_execute_arch OF decode_execute IS
     SIGNAL temp_in_op : STD_LOGIC;
     SIGNAL temp_src1_address, temp_src2_address : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL temp_sp_sel : STD_LOGIC_VECTOR(2 DOWNTO 0);
+    SIGNAL temp_pf_enable : STD_LOGIC_VECTOR(1 DOWNTO 0);
+
 BEGIN
     PROCESS (clk, rst)
     BEGIN
@@ -71,7 +75,9 @@ BEGIN
             temp_src2_address <= (OTHERS => '0');
             temp_in_op <= '0';
             temp_sp_sel <= (OTHERS => '0');
-        ELSIF falling_edge(clk) THEN --read in rising edge
+            temp_pf_enable <= (OTHERS => '0');
+
+        ELSIF falling_edge(clk) and noWrite='0' THEN --read in rising edge
             temp_write_back1 <= write_back1_in;
             temp_write_back2 <= write_back2_in;
             temp_mem_write <= mem_write_in;
@@ -95,6 +101,7 @@ BEGIN
             temp_src2_address <= src2_address_in;
             temp_in_op <= in_op_from_C_to_DE;
             temp_sp_sel <= sp_sel_in;
+            temp_pf_enable <= pf_enable_in;
             --ELSIF clk'event and clk = '0' THEN --write in falling edge
         END IF;
         write_back1_out <= temp_write_back1;
@@ -120,5 +127,6 @@ BEGIN
         src2_address_EX <= temp_src2_address;
         in_op_from_DE_to_EM <= temp_in_op;
         sp_sel_out <= temp_sp_sel;
+        pf_enable_out <= temp_pf_enable;
     END PROCESS;
 END decode_execute_arch;

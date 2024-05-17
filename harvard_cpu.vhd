@@ -438,8 +438,7 @@ BEGIN
 
     );
 
-    alu_src2_in <= read_data2_de_out WHEN alu_src_de_out = '0' ELSE
-        immediate_value_de_out;
+    
     alusrc1mux : mux2x1 GENERIC MAP(
         32) PORT MAP(
         in0 => read_data1_de_out,
@@ -449,15 +448,17 @@ BEGIN
     );
     alusrc2mux : mux2x1 GENERIC MAP(
         32) PORT MAP(
-        in0 => alu_src2_in,
+        in0 => read_data2_de_out,
         in1 => forwarded_value2,
         sel => forward_sel2,
         out1 => alu_src2_after_mux
     );
+    alu_src2_in <= alu_src2_after_mux WHEN alu_src_de_out = '0' ELSE
+        immediate_value_de_out;
 
     alu1 : alu PORT MAP(
         A => alu_src1_after_mux,
-        B => alu_src2_after_mux,
+        B => alu_src2_in,
         sel => alu_op_de_out,
         F => alu_out,
         zeroFlag => zero_flag_alu_out,
@@ -558,7 +559,7 @@ BEGIN
 
     memReadIn <= mem_read_em_out OR reset;
 
-    writeData <= alu_em_out when sp_sel_em_out = "001" else
+    writeData <= alu_em_out when sp_sel_em_out = "001"  else
         data_read2_em_out;
 
     -- spIn <= spOut+2 when sp_sel_em_out = "010" else

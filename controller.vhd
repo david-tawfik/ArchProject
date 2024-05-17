@@ -113,7 +113,7 @@ BEGIN
                 -- END IF;
                 -- writeBack1 <= '1';
                 -- writeBack2 <= '0';
-
+                sp_sel <= "000";
                 memInReg <= "00";
                 aluSrc <= '1';
                 zero_we <= '0';
@@ -137,6 +137,8 @@ BEGIN
                 carry_we <= '0';
                 outputPort_enable <= '0';
                 in_op <= '0';
+                sp_sel <= "000";
+
             WHEN OTHERS => -- "11"  (only mov for this phase)
                 IF (opCode(3 DOWNTO 0) = "0000") THEN
                     outputPort_enable <= '1';
@@ -169,6 +171,8 @@ BEGIN
                 negative_we <= '0';
                 overflow_we <= '0';
                 carry_we <= '0';
+                sp_sel <= "000";
+
         END CASE;
     END PROCESS;
 END controller_arch;

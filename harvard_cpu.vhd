@@ -6,6 +6,7 @@ ENTITY harvard_cpu IS
         clk, reset : IN STD_LOGIC;
         InputPort : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
         OutPort : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+        Exception : OUT STD_LOGIC;
         pcCounter : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
     );
 END harvard_cpu;
@@ -54,7 +55,7 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
 
     COMPONENT fetch_decode IS
         PORT (
-            Clk, Rst, noWrite,JmpRst : IN STD_LOGIC;
+            Clk, Rst, noWrite, JmpRst : IN STD_LOGIC;
             instruction : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
             InputPort_to_FD : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
             pcPlusOneIn : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -181,7 +182,8 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
             memRead : IN STD_LOGIC;
             address : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
             datain : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-            dataout : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+            dataout : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+            outofbounds_exception : OUT STD_LOGIC
         );
     END COMPONENT;
 
@@ -359,6 +361,8 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
     SIGNAL memory_read_from_MWB : STD_LOGIC;
     SIGNAL pcPlusOneFDOut, pcPlusOneDEOut, pcPlusOneEMOut : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL pcInAfterMux : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL protected_exception : STD_LOGIC;
+    SIGNAL outofbounds_exception : STD_LOGIC;
 
 BEGIN
     JmpMuxSel <= Jmp_from_DE OR (Jz_from_DE AND zero_from_flagreg);
@@ -470,8 +474,6 @@ BEGIN
         load_use_enable => load_use_enable_out
     );
     rstORJmpMuxSel <= reset OR JmpMuxSel;
-
-
     immediate_value_de_in <= "0000000000000000" & instruction_cache_out WHEN instruction_cache_out(15) = '0' OR alu_op_controller_out = "1111"
         ELSE
         "1111111111111111" & instruction_cache_out;
@@ -567,6 +569,8 @@ BEGIN
         carryFlag => carry_flag_alu_out
     );
 
+    Exception <= overflow_flag_alu_out OR protected_exception OR outofbounds_exception;
+
     flag_register1 : flag_register PORT MAP(
         clk => clk,
         zero_we => zero_wb_de_out,
@@ -608,7 +612,7 @@ BEGIN
         memory_out_write_back => memory_data_wb_out,
         memory_read_write_back => memory_read_from_MWB
     );
-      
+
     execute_memory1 : execute_memory PORT MAP(
         Clk => clk,
         Rst => reset,
@@ -681,8 +685,6 @@ BEGIN
 
     memAddressToMem <= spOut WHEN sp_sel_em_out = "001" OR sp_sel_em_out = "010" ELSE
         memAddressIn;
-
-
     protected1 : protected_reg PORT MAP(
         clk => clk,
         reset => reset,
@@ -690,7 +692,7 @@ BEGIN
         pf_enable => pf_enable_em_out,
         protected_bit => memWriteProtectedOut
     );
-
+    protected_exception <= memWriteProtectedOut AND mem_write_em_out;
     memWriteToMem <= NOT memWriteProtectedOut AND mem_write_em_out;
 
     memory1 : memory PORT MAP(
@@ -699,7 +701,8 @@ BEGIN
         memRead => memReadIn,
         address => memAddressToMem,
         datain => writeData,
-        dataout => memory_out
+        dataout => memory_out,
+        outofbounds_exception => outofbounds_exception
     );
 
     memory_wb1 : memory_wb PORT MAP(

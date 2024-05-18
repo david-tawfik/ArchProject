@@ -19,12 +19,12 @@ ARCHITECTURE fetch_decode_arch OF fetch_decode IS
     SIGNAL temp_op_code : STD_LOGIC_VECTOR(5 DOWNTO 0);
     SIGNAL temp_dst, temp_src1, temp_src2 : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL temp_InputPort : STD_LOGIC_VECTOR(31 DOWNTO 0);
-    Signal temp_pcPlusOne : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL temp_pcPlusOne : STD_LOGIC_VECTOR(31 DOWNTO 0);
 
 BEGIN
     PROCESS (clk, rst)
     BEGIN
-        IF (rst = '1') THEN
+        IF (falling_edge(clk) AND rst = '1') THEN
             temp_op_code <= "000000";
             temp_dst <= "000";
             temp_src1 <= "000";
@@ -36,7 +36,7 @@ BEGIN
             temp_src1 <= "000";
             temp_src2 <= "000";
             temp_pcPlusOne <= (OTHERS => '0');
-        ELSIF falling_edge(clk) and noWrite='0' THEN
+        ELSIF falling_edge(clk) AND noWrite = '0' THEN
             temp_op_code <= instruction(15 DOWNTO 10);
             temp_dst <= instruction(9 DOWNTO 7);
             temp_src1 <= instruction(6 DOWNTO 4);

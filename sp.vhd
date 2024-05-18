@@ -14,13 +14,13 @@ END sp;
 ARCHITECTURE sp_arch OF sp IS
     SIGNAL spTemp : STD_LOGIC_VECTOR(31 DOWNTO 0);
 BEGIN
-    PROCESS (clk,spSel)
+    PROCESS (clk, spSel)
     BEGIN
         IF rst = '1' THEN
             spTemp <= (0 => '0', OTHERS => '1');
-        ELSIF falling_edge(clk) AND (spSel = "001" or spSel = "100") THEN
+        ELSIF falling_edge(clk) AND (spSel = "001" OR spSel = "100") THEN
             spTemp <= STD_LOGIC_VECTOR(unsigned(spTemp) - 2);
-        ELSIF clk='1' AND (spSel = "010" or spSel = "011") THEN
+        ELSIF clk = '1' AND (spSel = "010" OR spSel = "011") THEN
             spTemp <= STD_LOGIC_VECTOR(unsigned(spTemp) + 2);
         END IF;
     END PROCESS;

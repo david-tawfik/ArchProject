@@ -9,7 +9,8 @@ ENTITY memory IS
 		memRead : IN STD_LOGIC;
 		address : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 		datain : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-		dataout : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+		dataout : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+		outofbounds_exception : OUT STD_LOGIC
 	);
 END ENTITY memory;
 
@@ -21,12 +22,15 @@ BEGIN
 	BEGIN
 		IF falling_edge(clk) THEN
 			IF memWrite = '1' THEN
-				mem(to_integer(unsigned(address(11 downto 0))) + 1) <= datain(15 DOWNTO 0);
-				mem(to_integer(unsigned(address(11 downto 0)))) <= datain(31 DOWNTO 16);
+				mem(to_integer(unsigned(address(11 DOWNTO 0))) + 1) <= datain(15 DOWNTO 0);
+				mem(to_integer(unsigned(address(11 DOWNTO 0)))) <= datain(31 DOWNTO 16);
 			END IF;
 		END IF;
+		IF to_integer(unsigned(address(11 DOWNTO 0))) > 4095 THEN
+			outofbounds_exception <= '1';
+		END IF;
 	END PROCESS;
-	dataout <= mem(to_integer(unsigned(address(11 downto 0)))) & mem(to_integer(unsigned(address(11 downto 0))) + 1) WHEN (memRead = '1')
+	dataout <= mem(to_integer(unsigned(address(11 DOWNTO 0)))) & mem(to_integer(unsigned(address(11 DOWNTO 0))) + 1) WHEN (memRead = '1')
 		ELSE
 		(OTHERS => '0');
 

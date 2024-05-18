@@ -5,7 +5,7 @@ USE IEEE.STD_LOGIC_1164.ALL;
 
 ENTITY decode_execute IS
     PORT (
-        Clk, Rst : IN STD_LOGIC;
+        Clk, Rst, JmpRst : IN STD_LOGIC;
         write_back1_in, write_back2_in, mem_write_in, mem_read_in, alu_src_in, zero_we_in, overflow_we_in, negative_we_in, carry_we_in : IN STD_LOGIC;
         mem_to_reg_in : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
         alu_op_in : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
@@ -16,6 +16,9 @@ ENTITY decode_execute IS
         WB_data_src_to_DE : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
         OutPort_en_to_DE : IN STD_LOGIC;
         in_op_from_C_to_DE : IN STD_LOGIC;
+        sp_sel_in : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+        Jmp_from_C_to_DE : IN STD_LOGIC;
+        Jz_from_C_to_DE : IN STD_LOGIC;
         write_back1_out, write_back2_out, mem_write_out, mem_read_out, alu_src_out, zero_we_out, overflow_we_out, negative_we_out, carry_we_out : OUT STD_LOGIC;
         alu_op : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
         mem_to_reg_out : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
@@ -25,7 +28,10 @@ ENTITY decode_execute IS
         WB_data_src_from_DE_to_EM : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
         OutPort_en_from_DE_to_EM : OUT STD_LOGIC;
         in_op_from_DE_to_EM : OUT STD_LOGIC;
-        src1_address_EX, src2_address_EX, write_address1_out, write_address2_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
+        src1_address_EX, src2_address_EX, write_address1_out, write_address2_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+        sp_sel_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+        Jmp_from_DE_to_EM : OUT STD_LOGIC;
+        Jz_from_DE_to_EM : OUT STD_LOGIC
     );
 END decode_execute;
 
@@ -42,6 +48,9 @@ ARCHITECTURE decode_execute_arch OF decode_execute IS
     SIGNAL temp_OutputPort_en : STD_LOGIC;
     SIGNAL temp_in_op : STD_LOGIC;
     SIGNAL temp_src1_address, temp_src2_address : STD_LOGIC_VECTOR(2 DOWNTO 0);
+    SIGNAL temp_sp_sel : STD_LOGIC_VECTOR(2 DOWNTO 0);
+    SIGNAL temp_Jmp : STD_LOGIC;
+    SIGNAL temp_Jz : STD_LOGIC;
 BEGIN
     PROCESS (clk, rst)
     BEGIN
@@ -67,6 +76,34 @@ BEGIN
             temp_src1_address <= (OTHERS => '0');
             temp_src2_address <= (OTHERS => '0');
             temp_in_op <= '0';
+            temp_sp_sel <= (OTHERS => '0');
+            temp_Jmp <= '0';
+            temp_Jz <= '0';
+        ELSIF (falling_edge(clk) AND JmpRst = '1') THEN
+            temp_write_back1 <= '0';
+            temp_write_back2 <= '0';
+            temp_mem_write <= '0';
+            temp_mem_read <= '0';
+            temp_alu_src <= '0';
+            temp_mem_to_reg <= (OTHERS => '0');
+            temp_alu_op <= (OTHERS => '0');
+            temp_read_data1 <= (OTHERS => '0');
+            temp_read_data2 <= (OTHERS => '0');
+            temp_immediate_value <= (OTHERS => '0');
+            temp_write_address1 <= (OTHERS => '0');
+            temp_write_address2 <= (OTHERS => '0');
+            temp_zero_we <= '0';
+            temp_overflow_we <= '0';
+            temp_negative_we <= '0';
+            temp_carry_we <= '0';
+            temp_WB_data_src <= (OTHERS => '0');
+            temp_OutputPort_en <= '0';
+            temp_src1_address <= (OTHERS => '0');
+            temp_src2_address <= (OTHERS => '0');
+            temp_in_op <= '0';
+            temp_sp_sel <= (OTHERS => '0');
+            temp_Jmp <= '0';
+            temp_Jz <= '0';
         ELSIF falling_edge(clk) THEN --read in rising edge
             temp_write_back1 <= write_back1_in;
             temp_write_back2 <= write_back2_in;
@@ -90,6 +127,9 @@ BEGIN
             temp_src1_address <= src1_address_in;
             temp_src2_address <= src2_address_in;
             temp_in_op <= in_op_from_C_to_DE;
+            temp_sp_sel <= sp_sel_in;
+            temp_Jmp <= Jmp_from_C_to_DE;
+            temp_Jz <= Jz_from_C_to_DE;
             --ELSIF clk'event and clk = '0' THEN --write in falling edge
         END IF;
         write_back1_out <= temp_write_back1;
@@ -114,5 +154,8 @@ BEGIN
         src1_address_EX <= temp_src1_address;
         src2_address_EX <= temp_src2_address;
         in_op_from_DE_to_EM <= temp_in_op;
+        sp_sel_out <= temp_sp_sel;
+        Jmp_from_DE_to_EM <= temp_Jmp;
+        Jz_from_DE_to_EM <= temp_Jz;
     END PROCESS;
 END decode_execute_arch;

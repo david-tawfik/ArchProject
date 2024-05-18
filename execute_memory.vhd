@@ -14,6 +14,7 @@ ENTITY execute_memory IS
         WB_data_src_from_DE_to_EM : in STD_LOGIC_VECTOR(1 DOWNTO 0);
         OutPort_en_from_DE_to_EM:IN STD_LOGIC;
         in_op_from_DE_to_EM : IN STD_LOGIC;
+        sp_sel_in : in STD_LOGIC_VECTOR(2 DOWNTO 0);
 
         InputPort_from_EM_to_MWB : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
         write_back1_out,write_back2_out, mem_write_out, mem_read_out : OUT STD_LOGIC;
@@ -23,7 +24,8 @@ ENTITY execute_memory IS
         zero_out, negative_out, overflow_out, carry_out : OUT STD_LOGIC;
         WB_data_src_from_EM_to_MWB : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
         OutPort_en_from_EM_to_MWB:OUT STD_LOGIC;
-        in_op_from_EM_to_MWB : OUT STD_LOGIC 
+        in_op_from_EM_to_MWB : OUT STD_LOGIC; 
+        sp_sel_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
     );
 END execute_memory;
 
@@ -39,6 +41,7 @@ ARCHITECTURE execute_memory_arch OF execute_memory IS
     SIGNAL temp_outport_en : STD_LOGIC;
     SIGNAL temp_in_op : STD_LOGIC;
     SIGNAL temp_write_back2 : STD_LOGIC;
+    SIGNAL temp_sp_sel : STD_LOGIC_VECTOR(2 DOWNTO 0);
 
 BEGIN
     PROCESS (clk, rst)
@@ -60,6 +63,7 @@ BEGIN
             temp_outport_en <= '0';
             temp_in_op <= '0';
             temp_write_back2 <= '0';
+            temp_sp_sel <= "000";
         ELSIF falling_edge(clk) THEN --read in rising edge
             temp_write_back1 <= write_back1_in;
             temp_mem_write <= mem_write_in;
@@ -78,6 +82,7 @@ BEGIN
             temp_outport_en <= OutPort_en_from_DE_to_EM;
             temp_in_op <= in_op_from_DE_to_EM;
             temp_write_back2 <= write_back2_in;
+            temp_sp_sel <= sp_sel_in;
 
             -- ELSIF clk'event and clk = '0' THEN --write in falling edge
 
@@ -99,6 +104,7 @@ BEGIN
         OutPort_en_from_EM_to_MWB <= temp_outport_en;
         in_op_from_EM_to_MWB <= temp_in_op;
         write_back2_out <= temp_write_back2;
+        sp_sel_out <= temp_sp_sel;
 
 
     END PROCESS;

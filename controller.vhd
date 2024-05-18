@@ -9,6 +9,9 @@ ENTITY controller IS
         writeBack1, writeBack2, memRead, memWrite, zero_we, overflow_we, negative_we, carry_we, outputPort_enable, in_op : OUT STD_LOGIC;
         WB_data_src : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
         memInReg : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
+        sp_sel : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+        Jmp : OUT STD_LOGIC;
+        Jz : OUT STD_LOGIC;
         aluSrc : OUT STD_LOGIC
     );
 END controller;
@@ -21,14 +24,21 @@ BEGIN
             WHEN "00" =>
                 IF (opCode(3 DOWNTO 0) = "0000" OR opCode(3 DOWNTO 0) = "0111") THEN
                     writeBack1 <= '0';
-
                 ELSE
                     writeBack1 <= '1';
                 END IF;
                 IF (opCode(3 DOWNTO 0) = "0111") THEN
                     aluOp <= "0110"; -- Special case for opcode "0111"
+                    sp_sel <= "000";
+                ELSIF (opCode(3 DOWNTO 0) = "1011") THEN
+                    aluOp <= "0000"; -- Special case for opcode "1000"
+                    sp_sel <= "001";
+                ELSIF (opCode(3 DOWNTO 0) = "1100") THEN
+                    aluOp <= "0000"; -- Special case for opcode "1000"
+                    sp_sel <= "010";
                 ELSE
                     aluOp <= opCode(3 DOWNTO 0);
+                    sp_sel <= "000";
                 END IF;
                 IF (opCode(3 DOWNTO 0) = "0000" OR opCode(3 DOWNTO 0) = "1011" OR opCode(3 DOWNTO 0) = "1100") THEN
                     zero_we <= '0';
@@ -49,31 +59,67 @@ BEGIN
                 ELSE
                     WB_data_src <= "01";
                 END IF;
-                memRead <= '0';
-                memWrite <= '0';
+                IF (opCode(3 DOWNTO 0) = "1100") THEN
+                    memRead <= '1';
+                ELSE
+                    memRead <= '0';
+                END IF;
+                IF (opCode(3 DOWNTO 0) = "1011") THEN
+                    memWrite <= '1';
+                ELSE
+                    memWrite <= '0';
+                END IF;
+                IF (opCode(3 DOWNTO 0) = "1010") THEN
+                    aluOp <= "0111";
+                END IF;
                 memInReg <= "00";
                 aluSrc <= '0';
                 outputPort_enable <= '0';
                 writeBack2 <= '0';
                 in_op <= '0';
+                Jmp <= '0';
+                Jz <= '0';
             WHEN "01" => -- Immediate value (only LDM for this phase)
                 IF (opCode(3 DOWNTO 0) = "0010" OR opCode(3 DOWNTO 0) = "0101" OR opCode(3 DOWNTO 0) = "0110") THEN
                     WB_data_src <= "01";
                 ELSE
                     WB_data_src <= "00";
                 END IF;
-                IF (opCode(3 DOWNTO 0) = "0101") THEN
-                    aluOp <= "0101";
-                ELSIF (opCode(3 DOWNTO 0) = "0110") THEN
+
+                IF (opCode(3 DOWNTO 0) = "0100") THEN
+                    memWrite <= '1';
+                    writeBack1 <= '0';
+                ELSE
+                    memWrite <= '0';
+                    writeBack1 <= '1';
+                END IF;
+
+                IF (opCode(3 DOWNTO 0) = "0011") THEN
+                    memRead <= '1';
+                    WB_data_src <= "00";
+                ELSE
+                    memRead <= '0';
+                    WB_data_src <= "01";
+                END IF;
+
+                IF (opCode(3 DOWNTO 0) = "0010") THEN -- LDM
+                    aluOp <= "1111";
+                ELSIF (opCode(3 DOWNTO 0) = "0110") THEN --SUBI
                     aluOp <= "0110";
                 ELSE
-                    aluOp <= "1111";
+                    aluOp <= "0101";
                 END IF;
-                writeBack1 <= '1';
                 writeBack2 <= '0';
-
-                memRead <= '0';
-                memWrite <= '0';
+                -- IF (opCode(3 DOWNTO 0) = "0101") THEN
+                --     aluOp <= "0101";
+                -- ELSIF (opCode(3 DOWNTO 0) = "0110") THEN
+                --     aluOp <= "0110";
+                -- ELSE
+                --     aluOp <= "1111";
+                -- END IF;
+                -- writeBack1 <= '1';
+                -- writeBack2 <= '0';
+                sp_sel <= "000";
                 memInReg <= "00";
                 aluSrc <= '1';
                 zero_we <= '0';
@@ -82,11 +128,23 @@ BEGIN
                 carry_we <= '0';
                 outputPort_enable <= '0';
                 in_op <= '0';
+                Jmp <= '0';
+                Jz <= '0';
             WHEN "10" => -- Example case
+                IF (opCode(3 DOWNTO 0) = "0000") THEN -- Jz
+                    Jz <= '1';
+                ELSE
+                    Jz <= '0';
+                END IF;
+                IF (opCode(3 DOWNTO 0) = "0001") THEN -- Jmp
+                    Jmp <= '1';
+                ELSE
+                    Jmp <= '0';
+                END IF;
                 WB_data_src <= "00";
                 writeBack1 <= '1';
                 writeBack2 <= '0';
-                aluOp <= "0000"; -- Default ALU operation code
+                aluOp <= "0000";
                 memRead <= '0';
                 memWrite <= '1';
                 memInReg <= "00";
@@ -97,6 +155,8 @@ BEGIN
                 carry_we <= '0';
                 outputPort_enable <= '0';
                 in_op <= '0';
+                sp_sel <= "000";
+
             WHEN OTHERS => -- "11"  (only mov for this phase)
                 IF (opCode(3 DOWNTO 0) = "0000") THEN
                     outputPort_enable <= '1';
@@ -129,6 +189,9 @@ BEGIN
                 negative_we <= '0';
                 overflow_we <= '0';
                 carry_we <= '0';
+                sp_sel <= "000";
+                Jmp <= '0';
+                Jz <= '0';
         END CASE;
     END PROCESS;
 END controller_arch;

@@ -45,7 +45,7 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
 
     COMPONENT fetch_decode IS
         PORT (
-            Clk, Rst : IN STD_LOGIC;
+            Clk, Rst, JmpRst : IN STD_LOGIC;
             instruction : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
             InputPort_to_FD : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
             InputPort_from_FD_to_DE : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -69,13 +69,16 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
             writeBack1, writeBack2, memRead, memWrite, zero_we, overflow_we, negative_we, carry_we, outputPort_enable, in_op : OUT STD_LOGIC;
             WB_data_src : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
             memInReg : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
+            sp_sel : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+            Jmp : OUT STD_LOGIC;
+            Jz : OUT STD_LOGIC;
             aluSrc : OUT STD_LOGIC
         );
     END COMPONENT controller;
 
     COMPONENT decode_execute IS
         PORT (
-            Clk, Rst : IN STD_LOGIC;
+            Clk, Rst, JmpRst : IN STD_LOGIC;
             write_back1_in, write_back2_in, mem_write_in, mem_read_in, alu_src_in, zero_we_in, overflow_we_in, negative_we_in, carry_we_in : IN STD_LOGIC;
             mem_to_reg_in : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
             alu_op_in : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
@@ -86,6 +89,9 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
             WB_data_src_to_DE : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
             OutPort_en_to_DE : IN STD_LOGIC;
             in_op_from_C_to_DE : IN STD_LOGIC;
+            sp_sel_in : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+            Jmp_from_C_to_DE : IN STD_LOGIC;
+            Jz_from_C_to_DE : IN STD_LOGIC;
             write_back1_out, write_back2_out, mem_write_out, mem_read_out, alu_src_out, zero_we_out, overflow_we_out, negative_we_out, carry_we_out : OUT STD_LOGIC;
             alu_op : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
             mem_to_reg_out : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
@@ -95,7 +101,10 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
             WB_data_src_from_DE_to_EM : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
             OutPort_en_from_DE_to_EM : OUT STD_LOGIC;
             in_op_from_DE_to_EM : OUT STD_LOGIC;
-            src1_address_EX, src2_address_EX, write_address1_out, write_address2_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
+            src1_address_EX, src2_address_EX, write_address1_out, write_address2_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+            sp_sel_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+            Jmp_from_DE_to_EM : OUT STD_LOGIC;
+            Jz_from_DE_to_EM : OUT STD_LOGIC
         );
     END COMPONENT decode_execute;
 
@@ -111,8 +120,8 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
     COMPONENT flag_register IS
         PORT (
             clk, zero_we, overflow_we, negative_we, carry_we, reset : IN STD_LOGIC;
-            zero, overflow, negative, carry : IN STD_LOGIC
-        );
+            zero, overflow, negative, carry, Jz_reset : IN STD_LOGIC;
+            zero_flag_out : OUT STD_LOGIC);
     END COMPONENT flag_register;
 
     COMPONENT execute_memory IS
@@ -128,6 +137,7 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
             WB_data_src_from_DE_to_EM : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
             OutPort_en_from_DE_to_EM : IN STD_LOGIC;
             in_op_from_DE_to_EM : IN STD_LOGIC;
+            sp_sel_in : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
 
             InputPort_from_EM_to_MWB : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
             write_back1_out, write_back2_out, mem_write_out, mem_read_out : OUT STD_LOGIC;
@@ -137,9 +147,11 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
             zero_out, negative_out, overflow_out, carry_out : OUT STD_LOGIC;
             WB_data_src_from_EM_to_MWB : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
             OutPort_en_from_EM_to_MWB : OUT STD_LOGIC;
-            in_op_from_EM_to_MWB : OUT STD_LOGIC
+            in_op_from_EM_to_MWB : OUT STD_LOGIC;
+            sp_sel_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
         );
     END COMPONENT execute_memory;
+
     COMPONENT memory IS
         PORT (
             clk : IN STD_LOGIC;
@@ -227,6 +239,15 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
         );
     END COMPONENT forwardcheckingunit;
 
+    COMPONENT sp IS
+        PORT (
+            clk, rst : IN STD_LOGIC;
+            -- spIn : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+            spOut : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+            spSel : IN STD_LOGIC_VECTOR(2 DOWNTO 0)
+        );
+    END COMPONENT sp;
+
     SIGNAL pcOut : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL resetMuxOut : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL instruction_cache_out : STD_LOGIC_VECTOR(15 DOWNTO 0);
@@ -282,16 +303,33 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
     SIGNAL alu_src1_after_mux, alu_src2_after_mux : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL in_op_from_C_to_DE, in_op_from_DE_to_EM, in_op_from_EM : STD_LOGIC;
     SIGNAL in_op_from_MWB : STD_LOGIC;
+    SIGNAL spIn, spOut : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL sp_sel_controller_out, sp_sel_de_out, sp_sel_em_out : STD_LOGIC_VECTOR(2 DOWNTO 0);
+    SIGNAL memAddressToMem : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL writeData : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL Jmp_from_C_to_DE, Jz_from_C_to_DE : STD_LOGIC;
+    SIGNAL Jmp_from_DE, Jz_from_DE : STD_LOGIC;
+    SIGNAL zero_from_flagreg : STD_LOGIC;
+    SIGNAL JmpMuxSel : STD_LOGIC;
+    SIGNAL JmpMuxOut : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL rstOrJmpMuxSel, fdrstORJmpMuxSel : STD_LOGIC;
 
 BEGIN
-    reset2x1MuxBeforePc : mux2x1 GENERIC MAP(
+    JmpMuxSel <= Jmp_from_DE OR (Jz_from_DE AND zero_from_flagreg);
+    JmpMuxBeforeRstMux : mux2x1 GENERIC MAP(
         32) PORT MAP(
         in0 => pcplus1,
+        in1 => alu_out,
+        sel => JmpMuxSel,
+        out1 => JmpMuxOut
+    );
+    reset2x1MuxBeforePc : mux2x1 GENERIC MAP(
+        32) PORT MAP(
+        in0 => JmpMuxOut,
         in1 => memory_out,
         sel => reset,
         out1 => resetMuxOut
     );
-
     pcCounter <= pcOut;
 
     pc1 : pcNew PORT MAP(
@@ -314,9 +352,11 @@ BEGIN
         dataout => instruction_cache_out
     );
 
+    fdrstORJmpMuxSel <= fd_reset OR JmpMuxSel;
     fetch_decode1 : fetch_decode PORT MAP(
         Clk => clk,
         Rst => fd_reset,
+        JmpRst => JmpMuxSel,
         instruction => instruction_cache_out,
         op_code => opcode_fd_out,
         dst => dst_fd_out,
@@ -342,7 +382,10 @@ BEGIN
         aluSrc => alu_src_controller_out,
         WB_data_src => WB_data_src_from_C_to_DE,
         outputPort_enable => outputport_en_to_DE,
-        in_op => in_op_from_C_to_DE
+        in_op => in_op_from_C_to_DE,
+        sp_sel => sp_sel_controller_out,
+        Jmp => Jmp_from_C_to_DE,
+        Jz => Jz_from_C_to_DE
     );
 
     register_file1 : register_file PORT MAP(
@@ -359,13 +402,15 @@ BEGIN
         data_read1 => data_read1_reg_out,
         data_read2 => data_read2_reg_out
     );
-    immediate_value_de_in <= "0000000000000000" & instruction_cache_out WHEN instruction_cache_out(15) = '0'
+    immediate_value_de_in <= "0000000000000000" & instruction_cache_out WHEN instruction_cache_out(15) = '0' OR alu_op_controller_out = "1111"
         ELSE
         "1111111111111111" & instruction_cache_out;
 
+    rstORJmpMuxSel <= reset OR JmpMuxSel;
     decode_execute1 : decode_execute PORT MAP(
         Clk => clk,
         Rst => reset,
+        JmpRst => JmpMuxSel,
         write_back1_in => write_back1_controller_out,
         mem_write_in => mem_write_controller_out,
         mem_read_in => mem_read_controller_out,
@@ -381,6 +426,10 @@ BEGIN
         immediate_value_in => immediate_value_de_in,
         write_address1_in => dst_fd_out,
         write_address2_in => src1_fd_out,
+        sp_sel_in => sp_sel_controller_out,
+        Jmp_from_C_to_DE => Jmp_from_C_to_DE,
+        Jz_from_C_to_DE => Jz_from_C_to_DE,
+
         write_back1_out => write_back1_de_out,
         mem_write_out => mem_write_de_out,
         mem_read_out => mem_read_de_out,
@@ -409,12 +458,11 @@ BEGIN
         in_op_from_C_to_DE => in_op_from_C_to_DE,
         in_op_from_DE_to_EM => in_op_from_DE_to_EM,
         write_back2_in => write_back2_controller_out,
-        write_back2_out => write_back2_de_out
-
+        write_back2_out => write_back2_de_out,
+        sp_sel_out => sp_sel_de_out,
+        Jmp_from_DE_to_EM => Jmp_from_DE,
+        Jz_from_DE_to_EM => Jz_from_DE
     );
-
-    alu_src2_in <= read_data2_de_out WHEN alu_src_de_out = '0' ELSE
-        immediate_value_de_out;
     alusrc1mux : mux2x1 GENERIC MAP(
         32) PORT MAP(
         in0 => read_data1_de_out,
@@ -424,15 +472,17 @@ BEGIN
     );
     alusrc2mux : mux2x1 GENERIC MAP(
         32) PORT MAP(
-        in0 => alu_src2_in,
+        in0 => read_data2_de_out,
         in1 => forwarded_value2,
         sel => forward_sel2,
         out1 => alu_src2_after_mux
     );
+    alu_src2_in <= alu_src2_after_mux WHEN alu_src_de_out = '0' ELSE
+        immediate_value_de_out;
 
     alu1 : alu PORT MAP(
         A => alu_src1_after_mux,
-        B => alu_src2_after_mux,
+        B => alu_src2_in,
         sel => alu_op_de_out,
         F => alu_out,
         zeroFlag => zero_flag_alu_out,
@@ -448,10 +498,12 @@ BEGIN
         negative_we => negative_wb_de_out,
         carry_we => carry_wb_de_out,
         reset => reset,
+        Jz_reset => Jz_from_DE,
         zero => zero_flag_alu_out,
         overflow => overflow_flag_alu_out,
         negative => negative_flag_alu_out,
-        carry => carry_flag_alu_out
+        carry => carry_flag_alu_out,
+        zero_flag_out => zero_from_flagreg
     );
 
     forwardcheckingunit1 : forwardcheckingunit PORT MAP(
@@ -479,6 +531,7 @@ BEGIN
         src2_data_wb => data_read2_wb_out
     );
 
+    -- rstOrJmpMuxSel <= reset OR JmpMuxSel;
     execute_memory1 : execute_memory PORT MAP(
         Clk => clk,
         Rst => reset,
@@ -495,6 +548,8 @@ BEGIN
         negative_in => negative_flag_alu_out,
         overflow_in => overflow_flag_alu_out,
         carry_in => carry_flag_alu_out,
+        sp_sel_in => sp_sel_de_out,
+
         write_back1_out => write_back1_em_out,
         write_back2_out => write_back2_em_out,
         mem_write_out => mem_write_em_out,
@@ -515,8 +570,8 @@ BEGIN
         OutPort_en_from_DE_to_EM => outport_en_from_DE_to_EM,
         OutPort_en_from_EM_to_MWB => outport_en_from_EM_to_MWB,
         in_op_from_DE_to_EM => in_op_from_DE_to_EM,
-        in_op_from_EM_to_MWB => in_op_from_EM
-
+        in_op_from_EM_to_MWB => in_op_from_EM,
+        sp_sel_out => sp_sel_em_out
     );
 
     resetMuxforMemAddress : mux2x1 GENERIC MAP(
@@ -529,18 +584,34 @@ BEGIN
 
     memReadIn <= mem_read_em_out OR reset;
 
+    writeData <= alu_em_out WHEN sp_sel_em_out = "001" ELSE
+        data_read2_em_out;
+
+    -- spIn <= spOut+2 when sp_sel_em_out = "010" else
+    --     spOut;
+
+    sp1 : sp PORT MAP(
+        clk => clk,
+        rst => reset,
+        spOut => spOut,
+        spSel => sp_sel_em_out
+    );
+
+    memAddressToMem <= spOut WHEN sp_sel_em_out = "001" OR sp_sel_em_out = "010" ELSE
+        memAddressIn;
+
     memory1 : memory PORT MAP(
         clk => clk,
         memWrite => mem_write_em_out,
         memRead => memReadIn,
-        address => memAddressIn,
-        datain => data_read2_em_out,
+        address => memAddressToMem,
+        datain => writeData,
         dataout => memory_out
     );
 
     memory_wb1 : memory_wb PORT MAP(
         Clk => clk,
-        Rst => reset,
+        Rst => rstORJmpMuxSel,
         write_back1_in => write_back1_em_out,
         write_back2_in => write_back2_em_out,
         mem_to_reg_in => mem_to_reg_em_out,

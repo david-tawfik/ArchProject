@@ -44,6 +44,7 @@ ARCHITECTURE memory_wb_arch OF memory_wb IS
 
 BEGIN
     PROCESS (clk, rst)
+    variable temp : STD_LOGIC_VECTOR(31 DOWNTO 0);
     BEGIN
         IF (rst = '1') THEN
             temp_write_back1 <= '0';

@@ -19,14 +19,14 @@ ARCHITECTURE mem_arch OF memory IS
 BEGIN
 	PROCESS (clk)
 	BEGIN
-		IF rising_edge(clk) THEN
+		IF falling_edge(clk) THEN
 			IF memWrite = '1' THEN
-				mem(to_integer(unsigned(address)) + 1) <= datain(15 DOWNTO 0);
-				mem(to_integer(unsigned(address))) <= datain(31 DOWNTO 16);
+				mem(to_integer(unsigned(address(11 downto 0))) + 1) <= datain(15 DOWNTO 0);
+				mem(to_integer(unsigned(address(11 downto 0)))) <= datain(31 DOWNTO 16);
 			END IF;
 		END IF;
 	END PROCESS;
-	dataout <= mem(to_integer(unsigned(address))) & mem(to_integer(unsigned(address)) + 1) WHEN (memRead = '1')
+	dataout <= mem(to_integer(unsigned(address(11 downto 0)))) & mem(to_integer(unsigned(address(11 downto 0))) + 1) WHEN (memRead = '1')
 		ELSE
 		(OTHERS => '0');
 

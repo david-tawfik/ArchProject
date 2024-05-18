@@ -32,6 +32,14 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling entity adder
 -- Compiling architecture arch_my_adder of adder
 
+} {} {}} D:/College/Sem8/Architecture/ArchProject/forwardcheckingunit.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/forwardcheckingunit.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity forwardcheckingunit
+-- Compiling architecture fcu_arch of forwardcheckingunit
+
 } {} {}} D:/College/Sem8/Architecture/ArchProject/pc.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/pc.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
@@ -49,15 +57,6 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling entity my_nDFF
 -- Compiling architecture b_my_nDFF of my_nDFF
 
-} {} {}} D:/College/Sem8/Architecture/ArchProject/controller.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/controller.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Compiling entity controller
--- Compiling architecture controller_arch of controller
-
 } {} {}} D:/College/Sem8/Architecture/ArchProject/mux2.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/mux2.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
@@ -74,14 +73,6 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Loading package NUMERIC_STD
 -- Compiling entity cache
 -- Compiling architecture synccachea of cache
-
-} {} {}} D:/College/Sem8/Architecture/ArchProject/fetch_decode.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/fetch_decode.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Compiling entity fetch_decode
--- Compiling architecture fetch_decode_arch of fetch_decode
 
 } {} {}} D:/College/Sem8/Architecture/ArchProject/pcNew.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/pcNew.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
@@ -124,6 +115,14 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Loading package std_logic_1164
 -- Compiling entity outputPort
 -- Compiling architecture arch1 of outputPort
+
+} {} {}} D:/College/Sem8/Architecture/ArchProject/memory_wb.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/memory_wb.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity memory_wb
+-- Compiling architecture memory_wb_arch of memory_wb
 
 } {} {}} D:/College/Sem8/Architecture/ArchProject/controllertoalu.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/controllertoalu.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
@@ -168,14 +167,6 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling entity pcAdder
 -- Compiling architecture arch1 of pcAdder
 
-} {} {}} D:/College/Sem8/Architecture/ArchProject/execute_memory.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/execute_memory.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Compiling entity execute_memory
--- Compiling architecture execute_memory_arch of execute_memory
-
 } {} {}} D:/College/Sem8/Architecture/ArchProject/my_nadder.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/my_nadder.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
@@ -183,15 +174,6 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Loading package std_logic_1164
 -- Compiling entity my_nadder
 -- Compiling architecture a_my_adder of my_nadder
-
-} {} {}} D:/College/Sem8/Architecture/ArchProject/sp.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/sp.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Compiling entity sp
--- Compiling architecture sp_arch of sp
 
 } {} {}} D:/College/Sem8/Architecture/ArchProject/load_use_control.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/load_use_control.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
@@ -226,13 +208,5 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Loading package std_logic_1164
 -- Compiling entity my_adder
 -- Compiling architecture a_my_adder of my_adder
-
-} {} {}} D:/College/Sem8/Architecture/ArchProject/decode_execute.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/College/Sem8/Architecture/ArchProject/decode_execute.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Compiling entity decode_execute
--- Compiling architecture decode_execute_arch of decode_execute
 
 } {} {}}

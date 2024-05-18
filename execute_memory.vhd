@@ -16,6 +16,7 @@ ENTITY execute_memory IS
         in_op_from_DE_to_EM : IN STD_LOGIC;
         sp_sel_in : in STD_LOGIC_VECTOR(2 DOWNTO 0);
         pf_enable_in : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
+        pcPlusOneIn : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 
         InputPort_from_EM_to_MWB : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
         write_back1_out,write_back2_out, mem_write_out, mem_read_out : OUT STD_LOGIC;
@@ -27,7 +28,8 @@ ENTITY execute_memory IS
         OutPort_en_from_EM_to_MWB:OUT STD_LOGIC;
         in_op_from_EM_to_MWB : OUT STD_LOGIC; 
         sp_sel_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-        pf_enable_out : OUT STD_LOGIC_VECTOR(1 DOWNTO 0)
+        pf_enable_out : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
+        pcPlusOneOut : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
     );
 END execute_memory;
 
@@ -45,6 +47,7 @@ ARCHITECTURE execute_memory_arch OF execute_memory IS
     SIGNAL temp_write_back2 : STD_LOGIC;
     SIGNAL temp_sp_sel : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL temp_pf_enable : STD_LOGIC_VECTOR(1 DOWNTO 0);
+    SIGNAL pcPlusOne : STD_LOGIC_VECTOR(31 DOWNTO 0);
 
 BEGIN
     PROCESS (clk, rst)
@@ -68,6 +71,7 @@ BEGIN
             temp_write_back2 <= '0';
             temp_sp_sel <= "000";
             temp_pf_enable <= (OTHERS => '0');
+            pcPlusOne <= (OTHERS => '0');
         ELSIF falling_edge(clk) THEN --read in rising edge
             temp_write_back1 <= write_back1_in;
             temp_mem_write <= mem_write_in;
@@ -88,6 +92,7 @@ BEGIN
             temp_write_back2 <= write_back2_in;
             temp_sp_sel <= sp_sel_in;
             temp_pf_enable <= pf_enable_in;
+            pcPlusOne <= pcPlusOneIn;
 
             -- ELSIF clk'event and clk = '0' THEN --write in falling edge
 
@@ -111,6 +116,7 @@ BEGIN
         write_back2_out <= temp_write_back2;
         sp_sel_out <= temp_sp_sel;
         pf_enable_out <= temp_pf_enable;
+        pcPlusOneOut <= pcPlusOne;
 
 
     END PROCESS;

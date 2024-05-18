@@ -162,11 +162,19 @@ BEGIN
                     src2_needed <= '1';
                 END IF;
                 WB_data_src <= "00";
-                writeBack1 <= '1';
+                writeBack1 <= '0';
                 writeBack2 <= '0';
                 aluOp <= "0000"; -- Default ALU operation code
-                memRead <= '0';
-                memWrite <= '1';
+                IF (opCode(3 DOWNTO 0) = "0011") THEN
+                    memRead <= '1';
+                ELSE
+                    memRead <= '0';
+                END IF;
+                IF (opCode(3 DOWNTO 0) = "0010") THEN
+                    memWrite <= '1';
+                ELSE
+                    memWrite <= '0';
+                END IF;
                 memInReg <= "00";
                 aluSrc <= '0';
                 zero_we <= '0';
@@ -175,7 +183,13 @@ BEGIN
                 carry_we <= '0';
                 outputPort_enable <= '0';
                 in_op <= '0';
-                sp_sel <= "000";
+                IF (opCode(3 DOWNTO 0) = "0010") THEN
+                    sp_sel <= "100";
+                ELSIF (opCode(3 DOWNTO 0) = "0011") THEN
+                    sp_sel <= "011";
+                ELSE
+                    sp_sel <= "000";
+                END IF;
                 pf_enable <= "00";
 
             WHEN OTHERS => -- "11"  (only mov for this phase)

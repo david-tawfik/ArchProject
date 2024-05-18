@@ -15,5 +15,53 @@ force -freeze sim:/harvard_cpu/InputPort 'hffffffff 0
 run
 force -freeze sim:/harvard_cpu/InputPort 'hfffff320 0
 run
+run
+run
+run
+run
+run
+run
+run
+run
 force -freeze sim:/harvard_cpu/InputPort 'h00000010 0
 run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+force -freeze sim:/harvard_cpu/InputPort 'h00000010 0
+run
+force -freeze sim:/harvard_cpu/InputPort 'h00000019 0
+run
+run
+run
+run
+run
+run
+run
+run
+run
+force -freeze sim:/harvard_cpu/InputPort 'h00000211 0
+run
+run
+run
+run
+run
+run
+run
+run
+force -freeze sim:/harvard_cpu/InputPort 'h00000100 0
+run
+run
+run
+run
+run
+run
+run
+

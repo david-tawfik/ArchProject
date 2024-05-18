@@ -16,8 +16,7 @@ BEGIN
     PROCESS (clk)
     BEGIN
         IF rising_edge(clk) THEN
-            c <= pcIn;
+            count <= pcIn;
         END IF;
     END PROCESS;
-    count <= c;
 END pc_arch;

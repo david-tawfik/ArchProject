@@ -4,7 +4,7 @@ USE IEEE.STD_LOGIC_1164.ALL;
 
 ENTITY fetch_decode IS
     PORT (
-        Clk, Rst, noWrite : IN STD_LOGIC;
+        Clk, Rst, noWrite, JmpRst : IN STD_LOGIC;
         instruction : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
         pcPlusOneIn : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
         InputPort_to_FD : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -25,6 +25,12 @@ BEGIN
     PROCESS (clk, rst)
     BEGIN
         IF (rst = '1') THEN
+            temp_op_code <= "000000";
+            temp_dst <= "000";
+            temp_src1 <= "000";
+            temp_src2 <= "000";
+            temp_pcPlusOne <= (OTHERS => '0');
+        ELSIF (falling_edge(clk) AND JmpRst = '1') THEN
             temp_op_code <= "000000";
             temp_dst <= "000";
             temp_src1 <= "000";

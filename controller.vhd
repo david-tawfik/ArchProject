@@ -10,6 +10,9 @@ ENTITY controller IS
         WB_data_src : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
         memInReg : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
         sp_sel : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+        Jmp : OUT STD_LOGIC;
+        Jz : OUT STD_LOGIC;
+        aluSrc : OUT STD_LOGIC
         aluSrc : OUT STD_LOGIC;
         pf_enable : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
         src1_needed, src2_needed : OUT STD_LOGIC
@@ -25,7 +28,6 @@ BEGIN
 
                 IF (opCode(3 DOWNTO 0) = "0000" OR opCode(3 DOWNTO 0) = "0111") THEN
                     writeBack1 <= '0';
-
                 ELSE
                     writeBack1 <= '1';
                 END IF;
@@ -70,6 +72,10 @@ BEGIN
                 ELSE
                     memWrite <= '0';
                 END IF;
+                  
+                IF (opCode(3 DOWNTO 0) = "1010") THEN
+                    aluOp <= "0111";
+                 END IF;
 
                 IF (opCode(3 DOWNTO 0) = "0000" OR opCode(3 DOWNTO 0) = "1100") THEN
                     src1_needed <= '0';
@@ -80,13 +86,19 @@ BEGIN
                 ELSE
                     src1_needed <= '1';
                     src2_needed <= '1';
+
                 END IF;
                 memInReg <= "00";
                 aluSrc <= '0';
                 outputPort_enable <= '0';
                 writeBack2 <= '0';
                 in_op <= '0';
+
+                Jmp <= '0';
+                Jz <= '0';
+
                 pf_enable <= "00";
+
             WHEN "01" => -- Immediate value (only LDM for this phase)
                 IF (opCode(3 DOWNTO 0) = "0010" OR opCode(3 DOWNTO 0) = "0101" OR opCode(3 DOWNTO 0) = "0110") THEN
                     WB_data_src <= "01";
@@ -118,6 +130,7 @@ BEGIN
                     aluOp <= "0101";
                 END IF;
 
+
                 IF (opCode(3 DOWNTO 0) = "0010") THEN
                     src1_needed <= '0';
                     src2_needed <= '0';
@@ -148,6 +161,18 @@ BEGIN
                 carry_we <= '0';
                 outputPort_enable <= '0';
                 in_op <= '0';
+                Jmp <= '0';
+                Jz <= '0';
+            WHEN "10" => -- Example case
+                IF (opCode(3 DOWNTO 0) = "0000") THEN -- Jz
+                    Jz <= '1';
+                ELSE
+                    Jz <= '0';
+                END IF;
+                IF (opCode(3 DOWNTO 0) = "0001") THEN -- Jmp
+                    Jmp <= '1';
+                ELSE
+                    Jmp <= '0';
                 pf_enable <= "00";
             WHEN "10" => -- Example case
 
@@ -242,7 +267,8 @@ BEGIN
                 overflow_we <= '0';
                 carry_we <= '0';
                 sp_sel <= "000";
-
+                Jmp <= '0';
+                Jz <= '0';
         END CASE;
     END PROCESS;
 END controller_arch;

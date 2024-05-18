@@ -5,7 +5,8 @@ USE IEEE.STD_LOGIC_1164.ALL;
 
 ENTITY decode_execute IS
     PORT (
-        Clk, Rst, noWrite, loadReset : IN STD_LOGIC;
+        Clk, Rst, JmpRst : IN STD_LOGIC;
+        Clk, Rst, noWrite, loadReset,JmpRst : IN STD_LOGIC;
         write_back1_in, write_back2_in, mem_write_in, mem_read_in, alu_src_in, zero_we_in, overflow_we_in, negative_we_in, carry_we_in : IN STD_LOGIC;
         mem_to_reg_in : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
         alu_op_in : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
@@ -17,6 +18,8 @@ ENTITY decode_execute IS
         OutPort_en_to_DE : IN STD_LOGIC;
         in_op_from_C_to_DE : IN STD_LOGIC;
         sp_sel_in : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+        Jmp_from_C_to_DE : IN STD_LOGIC;
+        Jz_from_C_to_DE : IN STD_LOGIC;
         write_back1_out, write_back2_out, mem_write_out, mem_read_out, alu_src_out, zero_we_out, overflow_we_out, negative_we_out, carry_we_out : OUT STD_LOGIC;
         pf_enable_in : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
         pcPlusOneIn : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -30,6 +33,8 @@ ENTITY decode_execute IS
         in_op_from_DE_to_EM : OUT STD_LOGIC;
         src1_address_EX, src2_address_EX, write_address1_out, write_address2_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
         sp_sel_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+        Jmp_from_DE_to_EM : OUT STD_LOGIC;
+        Jz_from_DE_to_EM : OUT STD_LOGIC
         pf_enable_out : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
         pcPlusOneOut : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
     );
@@ -49,6 +54,8 @@ ARCHITECTURE decode_execute_arch OF decode_execute IS
     SIGNAL temp_in_op : STD_LOGIC;
     SIGNAL temp_src1_address, temp_src2_address : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL temp_sp_sel : STD_LOGIC_VECTOR(2 DOWNTO 0);
+    SIGNAL temp_Jmp : STD_LOGIC;
+    SIGNAL temp_Jz : STD_LOGIC;
     SIGNAL temp_pf_enable : STD_LOGIC_VECTOR(1 DOWNTO 0);
     SIGNAL temp_pcPlusOne : STD_LOGIC_VECTOR(31 DOWNTO 0);
 
@@ -80,7 +87,12 @@ BEGIN
             temp_sp_sel <= (OTHERS => '0');
             temp_pf_enable <= (OTHERS => '0');
             temp_pcPlusOne <= (OTHERS => '0');
-        ELSIF (falling_edge(clk) AND loadReset = '1') THEN
+            temp_Jmp <= '0';
+            temp_Jz <= '0';
+
+        ELSIF (falling_edge(clk) AND (loadReset = '1' OR JmpRst = '1')) THEN
+            temp_Jmp <= '0';
+            temp_Jz <= '0';
             temp_write_back1 <= '0';
             temp_write_back2 <= '0';
             temp_mem_write <= '0';
@@ -130,6 +142,8 @@ BEGIN
             temp_src2_address <= src2_address_in;
             temp_in_op <= in_op_from_C_to_DE;
             temp_sp_sel <= sp_sel_in;
+            temp_Jmp <= Jmp_from_C_to_DE;
+            temp_Jz <= Jz_from_C_to_DE;
             temp_pf_enable <= pf_enable_in;
             temp_pcPlusOne <= pcPlusOneIn;
             --ELSIF clk'event and clk = '0' THEN --write in falling edge
@@ -157,6 +171,8 @@ BEGIN
         src2_address_EX <= temp_src2_address;
         in_op_from_DE_to_EM <= temp_in_op;
         sp_sel_out <= temp_sp_sel;
+        Jmp_from_DE_to_EM <= temp_Jmp;
+        Jz_from_DE_to_EM <= temp_Jz;
         pf_enable_out <= temp_pf_enable;
         pcPlusOneOut <= temp_pcPlusOne;
     END PROCESS;

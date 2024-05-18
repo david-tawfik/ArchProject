@@ -18,7 +18,6 @@ BEGIN
     BEGIN
         IF rst = '1' THEN
             spTemp <= (0 => '0', OTHERS => '1');
-        
         ELSIF falling_edge(clk) AND (spSel = "001" or spSel = "100") THEN
             spTemp <= STD_LOGIC_VECTOR(unsigned(spTemp) - 2);
         ELSIF clk='1' AND (spSel = "010" or spSel = "011") THEN

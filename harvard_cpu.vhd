@@ -12,11 +12,11 @@ END harvard_cpu;
 
 ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
     -- COMPONENT pc
-    --     PORT (
-    --         clk, reset : IN STD_LOGIC;
-    --         pcIn : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-    --         count : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
-    --     );
+    --    PORT (
+    --     write_back_de, mem_read_de : IN STD_LOGIC;
+    --     Rdst_de, Rsrc1_fd, Rsrc2_fd : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+    --     load_use_enable : OUT STD_LOGIC
+    -- );
     -- END COMPONENT;
 
     COMPONENT pcNew
@@ -30,6 +30,7 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
     COMPONENT pcAdder
         PORT (
             in1 : IN STD_LOGIC_VECTOR (31 DOWNTO 0);
+            stall : IN STD_LOGIC;
             out1 : OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
         );
     END COMPONENT;
@@ -43,14 +44,24 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
         );
     END COMPONENT cache;
 
+    COMPONENT load_use_control IS
+        PORT (
+            reset, write_back_de, mem_read_de, src1_needed, src2_needed : IN STD_LOGIC;
+            Rdst_de, Rsrc1_fd, Rsrc2_fd : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+            load_use_enable : OUT STD_LOGIC
+        );
+    END COMPONENT load_use_control;
+
     COMPONENT fetch_decode IS
         PORT (
-            Clk, Rst, JmpRst : IN STD_LOGIC;
+            Clk, Rst, noWrite,JmpRst : IN STD_LOGIC;
             instruction : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
             InputPort_to_FD : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+            pcPlusOneIn : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
             InputPort_from_FD_to_DE : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
             op_code : OUT STD_LOGIC_VECTOR(5 DOWNTO 0);
-            dst, src1, src2 : OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
+            dst, src1, src2 : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+            pcPlusOneOut : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
         );
     END COMPONENT fetch_decode;
 
@@ -59,7 +70,8 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
             write_address1, write_address2, read_address1, read_address2 : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
             clk, write_enable1, write_enable2, reset : IN STD_LOGIC;
             data_write1, data_write2 : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-            data_read1, data_read2 : OUT STD_LOGIC_VECTOR(31 DOWNTO 0));
+            data_read1, data_read2 : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+        );
     END COMPONENT register_file;
 
     COMPONENT controller IS
@@ -72,13 +84,15 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
             sp_sel : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             Jmp : OUT STD_LOGIC;
             Jz : OUT STD_LOGIC;
-            aluSrc : OUT STD_LOGIC
+            aluSrc : OUT STD_LOGIC;
+            pf_enable : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
+            src1_needed, src2_needed : OUT STD_LOGIC
         );
     END COMPONENT controller;
 
     COMPONENT decode_execute IS
         PORT (
-            Clk, Rst, JmpRst : IN STD_LOGIC;
+            Clk, Rst, noWrite, loadReset, JmpRst : IN STD_LOGIC;
             write_back1_in, write_back2_in, mem_write_in, mem_read_in, alu_src_in, zero_we_in, overflow_we_in, negative_we_in, carry_we_in : IN STD_LOGIC;
             mem_to_reg_in : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
             alu_op_in : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
@@ -92,6 +106,8 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
             sp_sel_in : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
             Jmp_from_C_to_DE : IN STD_LOGIC;
             Jz_from_C_to_DE : IN STD_LOGIC;
+            pf_enable_in : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
+            pcPlusOneIn : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
             write_back1_out, write_back2_out, mem_write_out, mem_read_out, alu_src_out, zero_we_out, overflow_we_out, negative_we_out, carry_we_out : OUT STD_LOGIC;
             alu_op : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
             mem_to_reg_out : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
@@ -105,6 +121,8 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
             sp_sel_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             Jmp_from_DE_to_EM : OUT STD_LOGIC;
             Jz_from_DE_to_EM : OUT STD_LOGIC
+            pf_enable_out : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
+            pcPlusOneOut : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
         );
     END COMPONENT decode_execute;
 
@@ -138,6 +156,8 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
             OutPort_en_from_DE_to_EM : IN STD_LOGIC;
             in_op_from_DE_to_EM : IN STD_LOGIC;
             sp_sel_in : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+            pf_enable_in : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
+            pcPlusOneIn : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 
             InputPort_from_EM_to_MWB : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
             write_back1_out, write_back2_out, mem_write_out, mem_read_out : OUT STD_LOGIC;
@@ -148,7 +168,9 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
             WB_data_src_from_EM_to_MWB : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
             OutPort_en_from_EM_to_MWB : OUT STD_LOGIC;
             in_op_from_EM_to_MWB : OUT STD_LOGIC;
-            sp_sel_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
+            sp_sel_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+            pf_enable_out : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
+            pcPlusOneOut : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
         );
     END COMPONENT execute_memory;
 
@@ -178,6 +200,7 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
             WB_data_src_from_EM_to_MWB : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
             OutPort_en_from_EM_to_MWB : IN STD_LOGIC;
             in_op_from_EM_to_MWB : IN STD_LOGIC;
+            memory_read_from_EM_to_MWB : IN STD_LOGIC;
 
             InputPort_from_MWB : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
             write_back1_out : OUT STD_LOGIC;
@@ -188,7 +211,8 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
             WB_data_src_from_MWB : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
             zero_out, negative_out, overflow_out, carry_out : OUT STD_LOGIC;
             in_op_from_MWB : OUT STD_LOGIC;
-            Outport_en_from_MWB : OUT STD_LOGIC
+            Outport_en_from_MWB : OUT STD_LOGIC;
+            memory_read_from_MWB : OUT STD_LOGIC
         );
     END COMPONENT memory_wb;
 
@@ -233,6 +257,8 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
             in_op_from_EM, in_op_from_MWB : IN STD_LOGIC;
             src2_data_mem, src2_data_wb : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
             forwarded_value1, forwarded_value2 : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+            memory_out_write_back : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+            memory_read_write_back : IN STD_LOGIC;
             forward_sel1 : OUT STD_LOGIC;
             forward_sel2 : OUT STD_LOGIC
 
@@ -247,6 +273,15 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
             spSel : IN STD_LOGIC_VECTOR(2 DOWNTO 0)
         );
     END COMPONENT sp;
+
+    COMPONENT protected_reg IS
+        PORT (
+            clk, reset : IN STD_LOGIC;
+            memory_address_in : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+            pf_enable : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
+            protected_bit : OUT STD_LOGIC
+        );
+    END COMPONENT protected_reg;
 
     SIGNAL pcOut : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL resetMuxOut : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -304,15 +339,26 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
     SIGNAL in_op_from_C_to_DE, in_op_from_DE_to_EM, in_op_from_EM : STD_LOGIC;
     SIGNAL in_op_from_MWB : STD_LOGIC;
     SIGNAL spIn, spOut : STD_LOGIC_VECTOR(31 DOWNTO 0);
-    SIGNAL sp_sel_controller_out, sp_sel_de_out, sp_sel_em_out : STD_LOGIC_VECTOR(2 DOWNTO 0);
-    SIGNAL memAddressToMem : STD_LOGIC_VECTOR(31 DOWNTO 0);
-    SIGNAL writeData : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL Jmp_from_C_to_DE, Jz_from_C_to_DE : STD_LOGIC;
     SIGNAL Jmp_from_DE, Jz_from_DE : STD_LOGIC;
     SIGNAL zero_from_flagreg : STD_LOGIC;
     SIGNAL JmpMuxSel : STD_LOGIC;
     SIGNAL JmpMuxOut : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL rstOrJmpMuxSel, fdrstORJmpMuxSel : STD_LOGIC;
+
+    SIGNAL sp_sel_controller_out, sp_sel_de_out, sp_sel_em_out : STD_LOGIC_VECTOR(2 DOWNTO 0);
+    SIGNAL memAddressToMem : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL writeData : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL pf_enable_controller_out, pf_enable_de_out, pf_enable_em_out : STD_LOGIC_VECTOR(1 DOWNTO 0);
+    SIGNAL memWriteProtectedOut : STD_LOGIC;
+    SIGNAL memWriteToMem : STD_LOGIC;
+    SIGNAL src1_needed_controller_out, src2_needed_controller_out : STD_LOGIC;
+
+    SIGNAL load_use_enable_out : STD_LOGIC;
+    SIGNAL de_reset : STD_LOGIC;
+    SIGNAL memory_read_from_MWB : STD_LOGIC;
+    SIGNAL pcPlusOneFDOut, pcPlusOneDEOut, pcPlusOneEMOut : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL pcInAfterMux : STD_LOGIC_VECTOR(31 DOWNTO 0);
 
 BEGIN
     JmpMuxSel <= Jmp_from_DE OR (Jz_from_DE AND zero_from_flagreg);
@@ -330,16 +376,20 @@ BEGIN
         sel => reset,
         out1 => resetMuxOut
     );
+    pcInAfterMux <= alu_em_out WHEN sp_sel_em_out = "100" ELSE
+        memory_out WHEN sp_sel_em_out = "011" ELSE
+        resetMuxOut;
     pcCounter <= pcOut;
 
     pc1 : pcNew PORT MAP(
         clk => clk,
-        pcIn => resetMuxOut,
+        pcIn => pcInAfterMux,
         count => pcOut
     );
 
     pcAdder1 : pcAdder PORT MAP(
         in1 => pcOut,
+        stall => load_use_enable_out,
         out1 => pcplus1
     );
 
@@ -357,13 +407,16 @@ BEGIN
         Clk => clk,
         Rst => fd_reset,
         JmpRst => JmpMuxSel,
+        noWrite => load_use_enable_out,
         instruction => instruction_cache_out,
+        pcPlusOneIn => pcplus1,
         op_code => opcode_fd_out,
         dst => dst_fd_out,
         src1 => src1_fd_out,
         src2 => src2_fd_out,
         InputPort_to_FD => InputPort,
-        InputPort_from_FD_to_DE => InputPort_from_FD_to_DE
+        InputPort_from_FD_to_DE => InputPort_from_FD_to_DE,
+        pcPlusOneOut => pcPlusOneFDOut
     );
     fd_reset <= '1' WHEN opcode_fd_out(5 DOWNTO 4) = "01" OR reset = '1' ELSE
         '0';
@@ -386,6 +439,9 @@ BEGIN
         sp_sel => sp_sel_controller_out,
         Jmp => Jmp_from_C_to_DE,
         Jz => Jz_from_C_to_DE
+        pf_enable => pf_enable_controller_out,
+        src1_needed => src1_needed_controller_out,
+        src2_needed => src2_needed_controller_out
     );
 
     register_file1 : register_file PORT MAP(
@@ -402,15 +458,29 @@ BEGIN
         data_read1 => data_read1_reg_out,
         data_read2 => data_read2_reg_out
     );
+    load_use_control1 : load_use_control PORT MAP(
+        reset => reset,
+        write_back_de => write_back1_de_out,
+        mem_read_de => mem_read_de_out,
+        src1_needed => src1_needed_controller_out,
+        src2_needed => src2_needed_controller_out,
+        Rdst_de => write_address1_de_out,
+        Rsrc1_fd => src1_fd_out,
+        Rsrc2_fd => src2_fd_out,
+        load_use_enable => load_use_enable_out
+    );
+    rstORJmpMuxSel <= reset OR JmpMuxSel;
+
+
     immediate_value_de_in <= "0000000000000000" & instruction_cache_out WHEN instruction_cache_out(15) = '0' OR alu_op_controller_out = "1111"
         ELSE
         "1111111111111111" & instruction_cache_out;
-
-    rstORJmpMuxSel <= reset OR JmpMuxSel;
     decode_execute1 : decode_execute PORT MAP(
         Clk => clk,
         Rst => reset,
         JmpRst => JmpMuxSel,
+        loadReset => load_use_enable_out,
+        noWrite => load_use_enable_out,
         write_back1_in => write_back1_controller_out,
         mem_write_in => mem_write_controller_out,
         mem_read_in => mem_read_controller_out,
@@ -429,6 +499,8 @@ BEGIN
         sp_sel_in => sp_sel_controller_out,
         Jmp_from_C_to_DE => Jmp_from_C_to_DE,
         Jz_from_C_to_DE => Jz_from_C_to_DE,
+        pf_enable_in => pf_enable_controller_out,
+        pcPlusOneIn => pcPlusOneFDOut,
 
         write_back1_out => write_back1_de_out,
         mem_write_out => mem_write_de_out,
@@ -460,8 +532,12 @@ BEGIN
         write_back2_in => write_back2_controller_out,
         write_back2_out => write_back2_de_out,
         sp_sel_out => sp_sel_de_out,
+
         Jmp_from_DE_to_EM => Jmp_from_DE,
         Jz_from_DE_to_EM => Jz_from_DE
+
+        pf_enable_out => pf_enable_de_out,
+        pcPlusOneOut => pcPlusOneDEOut
     );
     alusrc1mux : mux2x1 GENERIC MAP(
         32) PORT MAP(
@@ -528,10 +604,11 @@ BEGIN
         in_op_from_EM => in_op_from_EM,
         in_op_from_MWB => in_op_from_MWB,
         src2_data_mem => data_read2_em_out,
-        src2_data_wb => data_read2_wb_out
+        src2_data_wb => data_read2_wb_out,
+        memory_out_write_back => memory_data_wb_out,
+        memory_read_write_back => memory_read_from_MWB
     );
-
-    -- rstOrJmpMuxSel <= reset OR JmpMuxSel;
+      
     execute_memory1 : execute_memory PORT MAP(
         Clk => clk,
         Rst => reset,
@@ -549,6 +626,8 @@ BEGIN
         overflow_in => overflow_flag_alu_out,
         carry_in => carry_flag_alu_out,
         sp_sel_in => sp_sel_de_out,
+        pf_enable_in => pf_enable_de_out,
+        pcPlusOneIn => pcPlusOneDEOut,
 
         write_back1_out => write_back1_em_out,
         write_back2_out => write_back2_em_out,
@@ -571,7 +650,10 @@ BEGIN
         OutPort_en_from_EM_to_MWB => outport_en_from_EM_to_MWB,
         in_op_from_DE_to_EM => in_op_from_DE_to_EM,
         in_op_from_EM_to_MWB => in_op_from_EM,
-        sp_sel_out => sp_sel_em_out
+
+        sp_sel_out => sp_sel_em_out,
+        pf_enable_out => pf_enable_em_out,
+        pcPlusOneOut => pcPlusOneEMOut
     );
 
     resetMuxforMemAddress : mux2x1 GENERIC MAP(
@@ -581,10 +663,10 @@ BEGIN
         sel => reset,
         out1 => memAddressIn
     );
-
     memReadIn <= mem_read_em_out OR reset;
 
     writeData <= alu_em_out WHEN sp_sel_em_out = "001" ELSE
+        pcPlusOneEMOut WHEN sp_sel_em_out = "100" ELSE
         data_read2_em_out;
 
     -- spIn <= spOut+2 when sp_sel_em_out = "010" else
@@ -600,9 +682,20 @@ BEGIN
     memAddressToMem <= spOut WHEN sp_sel_em_out = "001" OR sp_sel_em_out = "010" ELSE
         memAddressIn;
 
+
+    protected1 : protected_reg PORT MAP(
+        clk => clk,
+        reset => reset,
+        memory_address_in => memAddressToMem,
+        pf_enable => pf_enable_em_out,
+        protected_bit => memWriteProtectedOut
+    );
+
+    memWriteToMem <= NOT memWriteProtectedOut AND mem_write_em_out;
+
     memory1 : memory PORT MAP(
         clk => clk,
-        memWrite => mem_write_em_out,
+        memWrite => memWriteToMem,
         memRead => memReadIn,
         address => memAddressToMem,
         datain => writeData,
@@ -643,7 +736,10 @@ BEGIN
         OutPort_en_from_EM_to_MWB => outport_en_from_EM_to_MWB,
         Outport_en_from_MWB => outport_en_from_MWB,
         in_op_from_EM_to_MWB => in_op_from_EM,
-        in_op_from_MWB => in_op_from_MWB
+        in_op_from_MWB => in_op_from_MWB,
+        memory_read_from_EM_to_MWB => mem_read_em_out,
+        memory_read_from_MWB => memory_read_from_MWB
+
     );
 
     WB_data_src_mux : mux4 GENERIC MAP(

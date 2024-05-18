@@ -57,7 +57,7 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
             Clk, Rst, noWrite,JmpRst : IN STD_LOGIC;
             instruction : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
             InputPort_to_FD : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-            pcPlusOneIn : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+            pcPlusOneIn : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
             InputPort_from_FD_to_DE : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
             op_code : OUT STD_LOGIC_VECTOR(5 DOWNTO 0);
             dst, src1, src2 : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
@@ -120,7 +120,7 @@ ARCHITECTURE harvard_cpu_arch OF harvard_cpu IS
             src1_address_EX, src2_address_EX, write_address1_out, write_address2_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             sp_sel_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
             Jmp_from_DE_to_EM : OUT STD_LOGIC;
-            Jz_from_DE_to_EM : OUT STD_LOGIC
+            Jz_from_DE_to_EM : OUT STD_LOGIC;
             pf_enable_out : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
             pcPlusOneOut : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
         );
@@ -438,7 +438,7 @@ BEGIN
         in_op => in_op_from_C_to_DE,
         sp_sel => sp_sel_controller_out,
         Jmp => Jmp_from_C_to_DE,
-        Jz => Jz_from_C_to_DE
+        Jz => Jz_from_C_to_DE,
         pf_enable => pf_enable_controller_out,
         src1_needed => src1_needed_controller_out,
         src2_needed => src2_needed_controller_out
@@ -534,7 +534,7 @@ BEGIN
         sp_sel_out => sp_sel_de_out,
 
         Jmp_from_DE_to_EM => Jmp_from_DE,
-        Jz_from_DE_to_EM => Jz_from_DE
+        Jz_from_DE_to_EM => Jz_from_DE,
 
         pf_enable_out => pf_enable_de_out,
         pcPlusOneOut => pcPlusOneDEOut

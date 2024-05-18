@@ -12,7 +12,6 @@ ENTITY controller IS
         sp_sel : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
         Jmp : OUT STD_LOGIC;
         Jz : OUT STD_LOGIC;
-        aluSrc : OUT STD_LOGIC
         aluSrc : OUT STD_LOGIC;
         pf_enable : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
         src1_needed, src2_needed : OUT STD_LOGIC
@@ -72,10 +71,10 @@ BEGIN
                 ELSE
                     memWrite <= '0';
                 END IF;
-                  
+
                 IF (opCode(3 DOWNTO 0) = "1010") THEN
                     aluOp <= "0111";
-                 END IF;
+                END IF;
 
                 IF (opCode(3 DOWNTO 0) = "0000" OR opCode(3 DOWNTO 0) = "1100") THEN
                     src1_needed <= '0';
@@ -129,8 +128,6 @@ BEGIN
                 ELSE
                     aluOp <= "0101";
                 END IF;
-
-
                 IF (opCode(3 DOWNTO 0) = "0010") THEN
                     src1_needed <= '0';
                     src2_needed <= '0';
@@ -163,17 +160,6 @@ BEGIN
                 in_op <= '0';
                 Jmp <= '0';
                 Jz <= '0';
-            WHEN "10" => -- Example case
-                IF (opCode(3 DOWNTO 0) = "0000") THEN -- Jz
-                    Jz <= '1';
-                ELSE
-                    Jz <= '0';
-                END IF;
-                IF (opCode(3 DOWNTO 0) = "0001") THEN -- Jmp
-                    Jmp <= '1';
-                ELSE
-                    Jmp <= '0';
-                pf_enable <= "00";
             WHEN "10" => -- Example case
 
                 IF (opCode(3 DOWNTO 0) = "0011") THEN
@@ -214,6 +200,16 @@ BEGIN
                     sp_sel <= "011";
                 ELSE
                     sp_sel <= "000";
+                END IF;
+                IF (opCode(3 DOWNTO 0) = "0000") THEN -- Jz
+                    Jz <= '1';
+                ELSE
+                    Jz <= '0';
+                END IF;
+                IF (opCode(3 DOWNTO 0) = "0001") THEN -- Jmp
+                    Jmp <= '1';
+                ELSE
+                    Jmp <= '0';
                 END IF;
                 pf_enable <= "00";
 

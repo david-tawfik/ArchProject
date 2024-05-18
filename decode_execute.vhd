@@ -5,7 +5,6 @@ USE IEEE.STD_LOGIC_1164.ALL;
 
 ENTITY decode_execute IS
     PORT (
-        Clk, Rst, JmpRst : IN STD_LOGIC;
         Clk, Rst, noWrite, loadReset,JmpRst : IN STD_LOGIC;
         write_back1_in, write_back2_in, mem_write_in, mem_read_in, alu_src_in, zero_we_in, overflow_we_in, negative_we_in, carry_we_in : IN STD_LOGIC;
         mem_to_reg_in : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
@@ -22,7 +21,7 @@ ENTITY decode_execute IS
         Jz_from_C_to_DE : IN STD_LOGIC;
         write_back1_out, write_back2_out, mem_write_out, mem_read_out, alu_src_out, zero_we_out, overflow_we_out, negative_we_out, carry_we_out : OUT STD_LOGIC;
         pf_enable_in : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
-        pcPlusOneIn : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+        pcPlusOneIn : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
         alu_op : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
         mem_to_reg_out : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
         read_data1_out, read_data2_out : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -34,7 +33,7 @@ ENTITY decode_execute IS
         src1_address_EX, src2_address_EX, write_address1_out, write_address2_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
         sp_sel_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
         Jmp_from_DE_to_EM : OUT STD_LOGIC;
-        Jz_from_DE_to_EM : OUT STD_LOGIC
+        Jz_from_DE_to_EM : OUT STD_LOGIC;
         pf_enable_out : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
         pcPlusOneOut : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
     );
